@@ -1,0 +1,34 @@
+[
+  {
+    "name": "glock",
+    "range": 500,
+    "type": "manual",
+    "ammo": 15,
+    "clipsize": 80,
+    "firerate": 0.5,
+    "dmg" : 15
+  },
+  {
+    "name": "bow",
+    "type": "projectile",
+    "ammo": 4,
+    "clipsize": 40,
+    "dmg" : 50,
+    "firerate": 1,
+    "bolt_speed": 30
+  },
+  {
+    "name": "fists",
+    "range": 50,
+    "dmg": 25,
+    "firerate": 0.5,
+    "type": "melee"
+  },
+  {
+    "name": "bat",
+    "range": 70,
+    "dmg": 45,
+    "firerate": 1,
+    "type": "melee"
+  }
+]
