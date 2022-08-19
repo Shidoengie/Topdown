@@ -7,6 +7,8 @@ func _process(delta):
 	if Weapon.current_type != "melee":
 		$Ammo/Label3.text = str(Weapon.current_ammo[Weapon.current])
 		$Ammo/Label4.text = str(Weapon.current_clipsize[Weapon.current])
+	else:
+		$Ammo.hide()
 	if Input.is_action_just_pressed("console"):
 		$Console.show()
 	match $Console/TextEdit.text:

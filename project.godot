@@ -29,6 +29,11 @@ config/icon="res://icon.png"
 Weapon="*res://scripts/Weapon.gd"
 Stats="*res://scripts/Stats.gd"
 
+[editor]
+
+version_control_autoload_on_startup=true
+version_control_plugin_name="GitAPI"
+
 [gdnative]
 
 singletons=[ "res://addons/godot-git-plugin/git_api.gdnlib" ]
