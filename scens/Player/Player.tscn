@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/P_punch.png" type="Texture" id=1]
-[ext_resource path="res://scens/Player/Player.cs" type="Script" id=2]
+[ext_resource path="res://scens/Player/player.gd" type="Script" id=2]
 [ext_resource path="res://assets/walk.png" type="Texture" id=3]
 [ext_resource path="res://assets/run.png" type="Texture" id=4]
 
@@ -199,10 +199,7 @@ tracks/1/keys = {
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 360, 480 )
 script = ExtResource( 2 )
-NodePathAnimationPlayerLegAnim = NodePath("Leg_anim")
-NodePathAnimationPlayerBodyAnim = NodePath("Body_anim")
-NodePathTimerReload = NodePath("Reload")
-NodePathRayCast2DWeaponCurRange = NodePath("RayCast2D")
+run_speed = 200
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )

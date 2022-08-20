@@ -1,23 +1,16 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://scripts/GUI.cs" type="Script" id=1]
+[ext_resource path="res://scripts/Gui.gd" type="Script" id=1]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource( 1 )
-NodePathLabelHP = NodePath("HP/Value")
-NodePathLabelWeapon = NodePath("Weapon/Value")
-NodePathLabelCurAmmo = NodePath("Ammo/Ammo Value")
-NodePathLabelClipsize = NodePath("Ammo/Clipsize Value")
-NodePathPanelAmmo = NodePath("Ammo")
-NodePathPopupDialogConsole = NodePath("Console")
-NodePathLineEditConsole = NodePath("Console/LineEdit")
 
 [node name="HP" type="Panel" parent="."]
 margin_top = 560.0
 margin_right = 256.0
 margin_bottom = 600.0
 
-[node name="Value" type="Label" parent="HP"]
+[node name="Label" type="Label" parent="HP"]
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 16.0
@@ -25,7 +18,7 @@ margin_bottom = 22.0
 rect_scale = Vector2( 2, 2 )
 text = "a"
 
-[node name="Name" type="Label" parent="HP"]
+[node name="Label2" type="Label" parent="HP"]
 margin_left = 216.0
 margin_top = 8.0
 margin_right = 234.0
@@ -38,7 +31,7 @@ margin_top = 520.0
 margin_right = 256.0
 margin_bottom = 560.0
 
-[node name="Ammo Value" type="Label" parent="Ammo"]
+[node name="Label3" type="Label" parent="Ammo"]
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 16.0
@@ -46,7 +39,7 @@ margin_bottom = 22.0
 rect_scale = Vector2( 2, 2 )
 text = "a"
 
-[node name="Clipsize Value" type="Label" parent="Ammo"]
+[node name="Label4" type="Label" parent="Ammo"]
 margin_left = 232.0
 margin_top = 8.0
 margin_right = 240.0
@@ -60,7 +53,7 @@ margin_left = 768.0
 margin_right = 1024.0
 margin_bottom = 40.0
 
-[node name="Value" type="Label" parent="Weapon"]
+[node name="Label3" type="Label" parent="Weapon"]
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 16.0
@@ -78,7 +71,7 @@ margin_top = -58.0
 margin_right = 384.0
 margin_bottom = 58.0
 
-[node name="LineEdit" type="LineEdit" parent="Console"]
+[node name="TextEdit" type="LineEdit" parent="Console"]
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
