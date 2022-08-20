@@ -10,13 +10,13 @@ public class Weapon : Node
     private JSONParseResult _data;
 
     //var unlocked = []
-    private WeaponType _cur = WeaponType.Fists;
+    public static WeaponType Cur = WeaponType.Fists;
 
     private string _curName = "";
     private int _curDamage;
     private int _curFirerate;
     private int _curProjectileSpeed;
-    private string _curType = "";
+    public static string CurType = "";
     private int _curRange;
     private int _curReload;
 

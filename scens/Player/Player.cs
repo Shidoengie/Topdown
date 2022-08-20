@@ -53,34 +53,50 @@ public class Player : KinematicBody2D
 
         //var collider = $RayCast2D.get_collider()
         //var not_null_or_tilemap = !(collider is TileMap) and $RayCast2D.is_colliding()
-        
-        /*switch(Weapon.current_type)
+
+        switch (Weapon.CurType)
+        {
             case "manual":
-                if Input.is_action_just_pressed("Shoot"):
-                    pass
+                if (Input.IsActionJustPressed("Shoot"))
+                {
+
+                }
+                break;
             case "auto":
-                if Input.is_action_pressed("Shoot"):
-                    pass
+                if (Input.IsActionPressed("Shoot"))
+                {
+
+                }
+                break;
             case "projectile":
-                if Input.is_action_just_pressed("Shoot"):
-                    pass
+                if (Input.IsActionJustPressed("Shoot"))
+                {
+
+                }
+                break;
             case "melee":
-                if !Input.is_action_just_pressed("Shoot"):
-                    return
-                if not_null_or_tilemap: 
+                if (!Input.IsActionJustPressed("Shoot"))
+                    break;
+                
+                /*if (notnullortilemap)
+                {
                     collider.health -= Weapon.current_dmg
                     collider.current_state = 2
-                MeleeAnimation()    */
+                }*/
+                MeleeAnimation();
+                break;
+        }
     }
 
-    /*private void MeleeAnimation()
+    private void MeleeAnimation()
     {
-        switch (Weapon.current)
+        switch (Weapon.Cur)
         {
-            case Weapon.FISTS:
-                $Body_anim.play("punch")
+            case WeaponType.Fists:
+                //$Body_anim.play("punch")
+                break;
         }
-    }*/
+    }
 
     /*
     func _on_Reload_timeout():
