@@ -17,8 +17,8 @@ public class Weapon : Node
     private int _curFirerate;
     private int _curProjectileSpeed;
     public static string CurType = "";
-    private int _curRange;
-    private int _curReload;
+    public static int CurRange;
+    public static int CurReload;
 
     /*
     #stores all weapons max clipzises and ammunition 

@@ -5,6 +5,16 @@ namespace TopDownGame;
 
 public class Player : KinematicBody2D
 {
+    [Export] protected readonly NodePath NodePathAnimationPlayerLegAnim;
+    [Export] protected readonly NodePath NodePathAnimationPlayerBodyAnim;
+    [Export] protected readonly NodePath NodePathTimerReload;
+    [Export] protected readonly NodePath NodePathRayCast2DWeaponCurRange;
+
+    private AnimationPlayer _animationPlayerLegAnim;
+    private AnimationPlayer _animationPlayerBodyAnim;
+    private Timer _timerReload;
+    private RayCast2D _rayCast2DWeaponCurRange;
+
     [Export] public int WalkSpeed = 100;
     [Export] public int RunSpeed = 150;
     [Export] public int Health = 100;
@@ -13,7 +23,10 @@ public class Player : KinematicBody2D
 
     public override void _Ready()
     {
-        
+        _animationPlayerLegAnim = GetNode<AnimationPlayer>(NodePathAnimationPlayerLegAnim);
+        _animationPlayerBodyAnim = GetNode<AnimationPlayer>(NodePathAnimationPlayerBodyAnim);
+        _timerReload = GetNode<Timer>(NodePathTimerReload);
+        _rayCast2DWeaponCurRange = GetNode<RayCast2D>(NodePathRayCast2DWeaponCurRange);
     }
 
     public override void _PhysicsProcess(float delta)
@@ -24,17 +37,17 @@ public class Player : KinematicBody2D
 
         if (inputVec == Vector2.Zero) 
         {
-            //$Leg_anim.play("RESET")
+            _animationPlayerLegAnim.Play("RESET");
         }
         else if (Input.IsActionPressed("Run"))
         {
             endSpeed = RunSpeed;
-            //$Leg_anim.play("run")
+            _animationPlayerLegAnim.Play("run");
         }
         else 
         {
             endSpeed = WalkSpeed;
-            //$Leg_anim.play("walk")
+            _animationPlayerLegAnim.Play("walk");
         }
 
         _velocity = inputVec;
@@ -48,11 +61,11 @@ public class Player : KinematicBody2D
 
     private void Weapons()
     {
-        // $RayCast2D.cast_to.x = Weapon.current_range
-	    // $Timer.wait_time = Weapon.current_reload
+        //_weaponCurRange.CastTo.x = Weapon.CurRange;
+        _timerReload.WaitTime = Weapon.CurReload;
 
-        //var collider = $RayCast2D.get_collider()
-        //var not_null_or_tilemap = !(collider is TileMap) and $RayCast2D.is_colliding()
+        var collider = _rayCast2DWeaponCurRange.GetCollider();
+        var not_null_or_tilemap = !(collider is TileMap) && _rayCast2DWeaponCurRange.IsColliding();
 
         switch (Weapon.CurType)
         {
@@ -78,11 +91,11 @@ public class Player : KinematicBody2D
                 if (!Input.IsActionJustPressed("Shoot"))
                     break;
                 
-                /*if (notnullortilemap)
+                if (not_null_or_tilemap)
                 {
-                    collider.health -= Weapon.current_dmg
-                    collider.current_state = 2
-                }*/
+                    //collider.health -= Weapon.current_dmg
+                    //collider.current_state = 2
+                }
                 MeleeAnimation();
                 break;
         }
@@ -93,7 +106,7 @@ public class Player : KinematicBody2D
         switch (Weapon.Cur)
         {
             case WeaponType.Fists:
-                //$Body_anim.play("punch")
+                _animationPlayerBodyAnim.Play("punch");
                 break;
         }
     }
