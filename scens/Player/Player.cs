@@ -108,9 +108,8 @@ public class Player : KinematicBody2D
         }
     }
 
-    /*
-    func _on_Reload_timeout():
-        Weapon.current_ammo
-        pass # Replace with function body.
-    */
+    private void _on_Reload_timeout()
+    {
+        //Weapon.current_ammo
+    }
 }
