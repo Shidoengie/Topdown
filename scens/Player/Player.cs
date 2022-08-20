@@ -1,6 +1,3 @@
-using Godot;
-using System;
-
 namespace TopDownGame;
 
 public class Player : KinematicBody2D
