@@ -100,6 +100,8 @@ tile_data = PoolIntArray( -5, 1, 0, -4, 1, 0, -3, 1, 0, -2, 1, 0, -1, 1, 0, -655
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( -392, 384 )
 collision_mask = 4
+walk_speed = null
+health = null
 
 [node name="Enemies" type="Node" parent="."]
 
