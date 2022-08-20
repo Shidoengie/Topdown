@@ -5,14 +5,27 @@ namespace TopDownGame;
 
 public class GUI : CanvasLayer
 {
+    [Export] protected readonly NodePath NodePathLabelHP;
+    [Export] protected readonly NodePath NodePathLabelWeapon;
+    [Export] protected readonly NodePath NodePathLabelCurAmmo;
+    [Export] protected readonly NodePath NodePathLabelClipsize;
+
+    private Label _labelHP;
+    private Label _labelWeapon;
+    private Label _labelCurAmmo;
+    private Label _labelClipsize;
+
     public override void _Ready()
     {
-        
+        _labelHP = GetNode<Label>(NodePathLabelHP);
+        _labelWeapon = GetNode<Label>(NodePathLabelWeapon);
+        _labelCurAmmo = GetNode<Label>(NodePathLabelCurAmmo);
+        _labelClipsize = GetNode<Label>(NodePathLabelClipsize);
     }
 
     public override void _Process(float delta)
     {
-        //$HP/Label.text = str(Stats.player_health)
+        _labelHP.Text = "" + Stats.PlayerHealth;
 	
         //$Weapon/Label3.text = Weapon.current_name
         /*if Weapon.current_type != "melee":
