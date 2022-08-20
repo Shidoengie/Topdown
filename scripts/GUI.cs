@@ -8,7 +8,7 @@ public class GUI : CanvasLayer
     [Export] protected readonly NodePath NodePathLabelClipsize;
     [Export] protected readonly NodePath NodePathPanelAmmo;
     [Export] protected readonly NodePath NodePathPopupDialogConsole;
-    [Export] protected readonly NodePath NodePathTextEditConsole;
+    [Export] protected readonly NodePath NodePathLineEditConsole;
 
     private Label _labelHP;
     private Label _labelWeapon;
@@ -17,7 +17,7 @@ public class GUI : CanvasLayer
 
     private Control _panelAmmo;
     private PopupDialog _popupDialogConsole;
-    private TextEdit _textEditConsole;
+    private LineEdit _lineEditConsole;
 
     public override void _Ready()
     {
@@ -27,7 +27,7 @@ public class GUI : CanvasLayer
         _labelClipsize = GetNode<Label>(NodePathLabelClipsize);
         _panelAmmo = GetNode<Control>(NodePathPanelAmmo);
         _popupDialogConsole = GetNode<PopupDialog>(NodePathPopupDialogConsole);
-        _textEditConsole = GetNode<TextEdit>(NodePathTextEditConsole);
+        _lineEditConsole = GetNode<LineEdit>(NodePathLineEditConsole);
     }
 
     public override void _Process(float delta)
@@ -51,7 +51,7 @@ public class GUI : CanvasLayer
             _popupDialogConsole.Show();
         }
 
-        switch (_textEditConsole.Text) 
+        switch (_lineEditConsole.Text) 
         {
             case "weapons":
                 // Weapon.unlocked = [Weapon.BOW,Weapon.GLOCK,Weapon.FISTS];
