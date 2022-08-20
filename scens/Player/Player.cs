@@ -18,7 +18,7 @@ public class Player : KinematicBody2D
 
     public override void _PhysicsProcess(float delta)
     {
-        //Stats.player_health = health
+        Stats.PlayerHealth = Health;
         var inputVec = Input.GetVector("left", "right", "up", "down");
         var endSpeed = 0;
 
