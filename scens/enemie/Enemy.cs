@@ -2,13 +2,32 @@ namespace TopDownGame;
 
 public class Enemy : KinematicBody2D
 {
-    //onready var player = get_parent().get_parent().find_node("Player") as KinematicBody2D
+    [Export] protected readonly NodePath NodePathRayCast2D_1;
+    [Export] protected readonly NodePath NodePathRayCast2D_2;
+    [Export] protected readonly NodePath NodePathRayCast2D_3;
+    [Export] protected readonly NodePath NodePathTimer;
+
+    private RayCast2D _rayCast2D_1;
+    private RayCast2D _rayCast2D_2;
+    private RayCast2D _rayCast2D_3;
+    private Godot.Timer _timer;
+    private KinematicBody2D _player;
+    
     [Export] public int Health = 200;
 
     private Vector2 _velocity;
     private EnemyState _curState = EnemyState.Search;
     private bool _seeingPlayer;
     private bool _hasBeenHit;
+
+    public override void _Ready()
+    {
+        _player = GetParent().GetParent().FindNode("Player") as KinematicBody2D;
+        _rayCast2D_1 = GetNode<RayCast2D>(NodePathRayCast2D_1);
+        _rayCast2D_2 = GetNode<RayCast2D>(NodePathRayCast2D_2);
+        _rayCast2D_3 = GetNode<RayCast2D>(NodePathRayCast2D_3);
+        _timer = GetNode<Godot.Timer>(NodePathTimer);
+    }
 
     public override void _Process(float delta)
     {
@@ -20,14 +39,18 @@ public class Enemy : KinematicBody2D
             case EnemyState.Search:
                 break;
             case EnemyState.Hunt:
-                /*var ray_arr = [$RayCast2D.get_collider(),$RayCast2D2.get_collider(),$RayCast2D3.get_collider()]
-                if !(player in ray_arr):
-                    seeing_player = false
-                else:
-                    seeing_player = true
-                if seeing_player or been_hit: 
-                    look_at(player.global_position)
-                    been_hit = false*/
+                var ray_arr = new List<object> { _rayCast2D_1.GetCollider(), _rayCast2D_2.GetCollider(), _rayCast2D_3.GetCollider() };
+
+                //if !(player in ray_arr):
+                //    seeing_player = false
+                //else:
+                //    seeing_player = true
+
+                if (_seeingPlayer || _hasBeenHit)
+                {
+                    LookAt(_player.GlobalPosition);
+                    _hasBeenHit = false;
+                }
                 break;
             case EnemyState.Hit:
                 _hasBeenHit = true;
@@ -41,7 +64,7 @@ public class Enemy : KinematicBody2D
         if (body.Name == "Player")
         {
             _curState = EnemyState.Hunt;
-            //$Timer.stop()
+            _timer.Stop();
             _seeingPlayer = true;
         }
     }
@@ -50,7 +73,7 @@ public class Enemy : KinematicBody2D
     {
         if (body.Name == "Player")
         {
-            //$Timer.start()
+            _timer.Start();
             _seeingPlayer = false;
         }
     }
