@@ -8,6 +8,9 @@ NodePathLabelHP = NodePath("HP/Value")
 NodePathLabelWeapon = NodePath("Weapon/Value")
 NodePathLabelCurAmmo = NodePath("Ammo/Ammo Value")
 NodePathLabelClipsize = NodePath("Ammo/Clipsize Value")
+NodePathPanelAmmo = NodePath("Ammo")
+NodePathPopupDialogConsole = NodePath("Console")
+NodePathTextEditConsole = NodePath("Console/TextEdit")
 
 [node name="HP" type="Panel" parent="."]
 margin_top = 560.0
