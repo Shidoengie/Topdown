@@ -36,22 +36,29 @@ public class Enemy : KinematicBody2D
         }
     }
 
-    /*
-    func _on_Area2D_body_entered(body):
-        if body.name == "Player":
-            current_state = HUNT
-            $Timer.stop()
-            seeing_player = true
+    private void _on_Area2D_body_entered(Node body)
+    {
+        if (body.Name == "Player")
+        {
+            _curState = EnemyState.Hunt;
+            //$Timer.stop()
+            _seeingPlayer = true;
+        }
+    }
 
-    func _on_Area2D_body_exited(body):
-        if body.name == "Player":
-            $Timer.start()
-            seeing_player = false
+    private void _on_Area2D_body_exited(Node body)
+    {
+        if (body.Name == "Player")
+        {
+            //$Timer.start()
+            _seeingPlayer = false;
+        }
+    }
 
-
-    func _on_Timer_timeout():
-        current_state = SEARCH
-        */
+    private void _on_Timer_timeout()
+    {
+        _curState = EnemyState.Search;
+    }
 }
 
 public enum EnemyState 
