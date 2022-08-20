@@ -2,5 +2,5 @@ namespace TopDownGame;
 
 public static class Stats
 {
-    public static int PlayerHealth = 100;
+    public static int PlayerHealth;
 }
