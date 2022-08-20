@@ -9,7 +9,7 @@ public class Player : KinematicBody2D
 
     private AnimationPlayer _animationPlayerLegAnim;
     private AnimationPlayer _animationPlayerBodyAnim;
-    private Timer _timerReload;
+    private Godot.Timer _timerReload;
     private RayCast2D _rayCast2DWeaponCurRange;
 
     [Export] public int WalkSpeed = 100;
@@ -22,7 +22,7 @@ public class Player : KinematicBody2D
     {
         _animationPlayerLegAnim = GetNode<AnimationPlayer>(NodePathAnimationPlayerLegAnim);
         _animationPlayerBodyAnim = GetNode<AnimationPlayer>(NodePathAnimationPlayerBodyAnim);
-        _timerReload = GetNode<Timer>(NodePathTimerReload);
+        _timerReload = GetNode<Godot.Timer>(NodePathTimerReload);
         _rayCast2DWeaponCurRange = GetNode<RayCast2D>(NodePathRayCast2DWeaponCurRange);
     }
 
