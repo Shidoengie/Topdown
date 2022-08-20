@@ -18,14 +18,15 @@ public class Bullet : Area2D
         Position += _dir * Speed * delta;
     }
 
-    /*
-    var i =false 
-    func _on_Bullet_body_entered(body):
-        if not body is TileMap:
-            body.health -= damage
-            queue_free()
-            body.current_state = 2
-            return
-        queue_free()
-        */
+    private void _on_Bullet_body_entered(Node body)
+    {
+        if (body is not TileMap)
+        {
+            //body.health -= damage;
+            //body.currentstate = 2;
+            return;
+        }
+
+        QueueFree();
+    }
 }
