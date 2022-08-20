@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://assets/Enemy_placeholder.png" type="Texture" id=1]
-[ext_resource path="res://scens/enemie/Enemy.gd" type="Script" id=2]
+[ext_resource path="res://scens/enemie/Enemy.cs" type="Script" id=2]
 
 [sub_resource type="CapsuleShape2D" id=1]
 
@@ -10,6 +10,10 @@ position = Vector2( 152, 80 )
 collision_layer = 2
 collision_mask = 7
 script = ExtResource( 2 )
+NodePathRayCast2D_1 = NodePath("RayCast2D")
+NodePathRayCast2D_2 = NodePath("RayCast2D2")
+NodePathRayCast2D_3 = NodePath("RayCast2D3")
+NodePathTimer = NodePath("Timer")
 
 [node name="EnSprite" type="Sprite" parent="."]
 rotation = 1.57079
