@@ -12,7 +12,7 @@ public class Weapon : Node
     //var unlocked = []
     public static WeaponType Cur = WeaponType.Fists;
 
-    private string _curName = "";
+    public static string CurName = "";
     private int _curDamage;
     private int _curFirerate;
     private int _curProjectileSpeed;
