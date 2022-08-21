@@ -16,7 +16,7 @@ var current_firerate = 0
 var project_speed = 0
 var current_type = ""
 var current_range = 0
-var current_reload = 0
+var current_reload = 1
 
 #stores all weapons max clipzises and ammunition 
 var max_ammo = []

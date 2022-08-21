@@ -3,21 +3,25 @@ var velocity = Vector2.ZERO
 
 export var walk_speed = 100
 export var run_speed = 150
-
 export var health = 100
+
+onready var Leg_anim = get_node("Leg_anim")
+onready var Body_anim = get_node("Body_anim")
+onready var Reload_timer = get_node("Reload_timer")
+onready var Weapon_ray = get_node("RayCast2D")
 
 func _physics_process(delta):
 	Stats.player_health = health
 	var inp_vec = Input.get_vector("left","right","up","down")
 	var end_speed = 0
 	if inp_vec == Vector2.ZERO:
-		$Leg_anim.play("RESET")
+		Leg_anim.play("RESET")
 	elif Input.is_action_pressed("Run"):
 		end_speed = run_speed
-		$Leg_anim.play("run")
+		Leg_anim.play("run")
 	else:
 		end_speed = walk_speed
-		$Leg_anim.play("walk")
+		Leg_anim.play("walk")
 		
 	velocity = inp_vec
 	look_at(get_global_mouse_position())
@@ -27,10 +31,10 @@ func _physics_process(delta):
 
 	weapons()
 func weapons():
-	$RayCast2D.cast_to.x = Weapon.current_range
-	$Timer.wait_time = Weapon.current_reload
-	var collider = $RayCast2D.get_collider()
-	var not_null_or_tilemap = !(collider is TileMap) and $RayCast2D.is_colliding()
+	Weapon_ray.cast_to.x = Weapon.current_range
+	Reload_timer.wait_time = Weapon.current_reload
+	var collider = Weapon_ray.get_collider()
+	var not_null_or_tilemap = !(collider is TileMap) and Weapon_ray.is_colliding()
 	
 	match Weapon.current_type:
 		"manual":
@@ -52,7 +56,7 @@ func weapons():
 func melee_anim():
 	match Weapon.current:
 		Weapon.FISTS:
-			$Body_anim.play("punch")
+			Body_anim.play("punch")
 	
 
 

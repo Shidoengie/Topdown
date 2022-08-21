@@ -236,7 +236,7 @@ anims/RESET = SubResource( 3 )
 anims/run = SubResource( 6 )
 anims/walk = SubResource( 4 )
 
-[node name="Reload" type="Timer" parent="."]
+[node name="Reload_timer" type="Timer" parent="."]
 one_shot = true
 
-[connection signal="timeout" from="Reload" to="." method="_on_Reload_timeout"]
+[connection signal="timeout" from="Reload_timer" to="." method="_on_Reload_timeout"]

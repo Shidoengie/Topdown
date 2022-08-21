@@ -1,5 +1,8 @@
 extends CanvasLayer
 
+
+
+
 func _process(delta):
 	$HP/Label.text = str(Stats.player_health)
 	
