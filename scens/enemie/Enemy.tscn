@@ -10,6 +10,7 @@ position = Vector2( 152, 80 )
 collision_layer = 2
 collision_mask = 7
 script = ExtResource( 2 )
+walkspeed = 70
 
 [node name="EnSprite" type="Sprite" parent="."]
 rotation = 1.57079
