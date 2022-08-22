@@ -76,7 +76,6 @@ func move_along_path(distance):
 		path.remove(1)
 	position = last_point
 
-
 func _on_Area2D_body_entered(body):
 	if body == player:
 		current_state = HUNT
