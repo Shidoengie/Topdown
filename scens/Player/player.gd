@@ -79,5 +79,4 @@ func _on_Reload_timeout():
 	if Weapon.current_clipsize[Weapon.current] < 1:
 		return
 	Weapon.current_ammo[Weapon.current] = Weapon.max_ammo[Weapon.current]
-	print(Weapon.max_ammo[Weapon.current])
 	Weapon.current_clipsize[Weapon.current] -= 1
