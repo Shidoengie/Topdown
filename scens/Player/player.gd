@@ -1,6 +1,6 @@
 extends KinematicBody2D
 var velocity = Vector2.ZERO
-
+var is_reloading = false
 export var walk_speed = 100
 export var run_speed = 150
 export var health = 100
@@ -8,8 +8,11 @@ export var health = 100
 onready var Leg_anim = get_node("Leg_anim")
 onready var Body_anim = get_node("Body_anim")
 onready var Reload_timer = get_node("Reload_timer")
+onready var Firerate_timer = get_node("Firerate_timer")
 onready var Weapon_ray = get_node("RayCast2D")
 
+func _ready():
+	Weapon.current = 0
 func _physics_process(delta):
 	Stats.player_health = health
 	var inp_vec = Input.get_vector("left","right","up","down")
@@ -28,18 +31,29 @@ func _physics_process(delta):
 	
 	velocity = move_and_slide(velocity*end_speed,Vector2.ZERO)
 	if health < 0: get_tree().quit()
-
 	weapons()
 func weapons():
+
 	Weapon_ray.cast_to.x = Weapon.current_range
 	Reload_timer.wait_time = Weapon.current_reload
+	Firerate_timer.wait_time = Weapon.current_firerate
+	
 	var collider = Weapon_ray.get_collider()
 	var not_null_or_tilemap = !(collider is TileMap) and Weapon_ray.is_colliding()
 	
+	if Weapon.current_ammo[Weapon.current] < 1 and Weapon.current_type != "melee" and not is_reloading:
+		Reload_timer.start()
+		is_reloading = true
+	if is_reloading:
+		return
 	match Weapon.current_type:
 		"manual":
-			if Input.is_action_just_pressed("Shoot"):
-				pass
+			if !Input.is_action_just_pressed("Shoot"):
+				return
+			Weapon.current_ammo[Weapon.current] -= 1
+			if not_null_or_tilemap: 
+				collider.health -= Weapon.current_dmg
+				collider.current_state = 2
 		"auto":
 			if Input.is_action_pressed("Shoot"):
 				pass
@@ -53,6 +67,7 @@ func weapons():
 				collider.health -= Weapon.current_dmg
 				collider.current_state = 2
 			melee_anim()
+	
 func melee_anim():
 	match Weapon.current:
 		Weapon.FISTS:
@@ -61,5 +76,8 @@ func melee_anim():
 
 
 func _on_Reload_timeout():
-	Weapon.current_ammo
-	pass # Replace with function body.
+	if Weapon.current_clipsize[Weapon.current] < 1:
+		return
+	Weapon.current_ammo[Weapon.current] = Weapon.max_ammo[Weapon.current]
+	print(Weapon.max_ammo[Weapon.current])
+	Weapon.current_clipsize[Weapon.current] -= 1

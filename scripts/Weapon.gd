@@ -12,7 +12,7 @@ var current = FISTS
 
 var current_name = ""
 var current_dmg = 0
-var current_firerate = 0
+var current_firerate = 1
 var project_speed = 0
 var current_type = ""
 var current_range = 0
@@ -34,8 +34,8 @@ func _ready():
 			continue
 		max_ammo.append(i["ammo"])
 		max_clipsize.append(i["clipsize"])
-	current_ammo = max_ammo
-	current_clipsize = max_clipsize
+	current_ammo = max_ammo.duplicate()
+	current_clipsize = max_clipsize.duplicate()
 
 func _process(delta):
 	match current:

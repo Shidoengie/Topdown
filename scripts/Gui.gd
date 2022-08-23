@@ -16,5 +16,5 @@ func _process(delta):
 		$Console.show()
 	match $Console/TextEdit.text:
 		"weapons":
-			Weapon.unlocked = [Weapon.BOW,Weapon.GLOCK,Weapon.FISTS]
+			Weapon.unlocked = [Weapon.BOW,Weapon.GLOCK,Weapon.FISTS,Weapon.BAT]
 	

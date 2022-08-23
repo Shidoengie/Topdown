@@ -6,7 +6,8 @@
     "ammo": 15,
     "clipsize": 80,
     "firerate": 0.5,
-    "dmg" : 15
+    "dmg" : 15,
+    "reload_time": 4
   },
   {
     "name": "bow",
@@ -15,7 +16,8 @@
     "clipsize": 40,
     "dmg" : 50,
     "firerate": 1,
-    "bolt_speed": 30
+    "bolt_speed": 30,
+    "reload_time": 2
   },
   {
     "name": "fists",
