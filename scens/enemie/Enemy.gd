@@ -11,8 +11,8 @@ onready var nav = get_parent().get_parent().find_node("Navigation2D") as Navigat
 var velocity = Vector2.ZERO
 var path = []
 
-export var walkspeed = 10
-export var health = 200
+export var _walkspeed = 10
+export var _health = 200
 
 enum {SEARCH = 0,HUNT =1,HIT = 2}
 var current_state = SEARCH
