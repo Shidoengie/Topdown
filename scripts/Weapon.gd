@@ -1,7 +1,7 @@
 extends Node
 
 
-enum {GLOCK = 0 ,BOW = 1, FISTS = 2, BAT = 3}
+enum {PISTOL = 0 ,BOW = 1, FISTS = 2, BAT = 3}
 
 var json_str = ""
 var json_file = File.new()
@@ -39,7 +39,7 @@ func _ready():
 
 func _process(delta):
 	match current:
-			GLOCK:
+			PISTOL:
 				var dict = data.result[0]
 				current_dmg = dict["dmg"]
 				current_firerate = dict["firerate"]
