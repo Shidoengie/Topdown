@@ -31,7 +31,6 @@ func _process(delta):
 		0:
 			pass
 		# Hunt
-		# NOTE: replace teleport with actual walking
 		1:
 			hunt_func(delta)
 		# hit
