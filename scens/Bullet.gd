@@ -12,6 +12,8 @@ func _physics_process(delta):
 
 var i =false 
 func _on_Bullet_body_entered(body):
+	var dict = {}
+	
 	if not body is TileMap:
 		body.health -= damage
 		queue_free()

@@ -41,12 +41,16 @@ func weapons():
 	Reload_timer.wait_time = Weapon.current_reload
 	Firerate_timer.wait_time = Weapon.current_firerate
 	
+	var _current_ammo = Weapon.current_ammo[Weapon.current]
 	var collider = Weapon_ray.get_collider()
 	var not_null_or_tilemap = !(collider is TileMap) and Weapon_ray.is_colliding()
-	
-	if Weapon.current_ammo[Weapon.current] < 1 and Weapon.current_type != "melee" and not is_reloading:
+	var _melee_and_reloading = Weapon.current_type != "melee" and not is_reloading
+	if ((_current_ammo < 1 and _melee_and_reloading) or 
+		(_melee_and_reloading and Input.is_action_just_pressed("reload"))
+	):
 		Reload_timer.start()
 		is_reloading = true
+		
 	if is_reloading:
 		return
 	match Weapon.current_type:
@@ -92,3 +96,4 @@ func _on_Reload_timeout():
 	Weapon.current_ammo[Weapon.current] = Weapon.max_ammo[Weapon.current]
 	Weapon.current_clipsize[Weapon.current] -= 1
 	is_reloading = false
+

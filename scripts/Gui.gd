@@ -5,9 +5,9 @@ extends CanvasLayer
 
 func _process(delta):
 	var current_weapon = Weapon.current
-	$HP/Label.text = str(Stats.player_health) + " HP"
+	$HpBar.value = Stats.player_health
 	if Weapon.current_type != "melee":
-		$Weapon_panel/Ammo.text = str(Weapon.current_ammo[current_weapon]) + " " + str(Weapon.current_clipsize[current_weapon])
+		$Weapon_panel/Ammo.text = str(Weapon.current_ammo[current_weapon]) + "\n" + str(Weapon.current_clipsize[current_weapon])
 	else:
 		$Ammo.hide()
 	if Input.is_action_just_pressed("console"):
