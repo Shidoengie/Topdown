@@ -11,7 +11,7 @@ onready var nav = get_parent().get_parent().find_node("Navigation2D") as Navigat
 var velocity = Vector2.ZERO
 var path = []
 
-export var _walkspeed = 10
+export var _walkspeed = 100
 export var _health = 200
 
 enum {SEARCH = 0,HUNT =1,HIT = 2}
@@ -20,9 +20,15 @@ var seeing_player = false
 var been_hit = false
 var path_update = true
 
+var current_weapon = Weapon.WEAPON_ENUM.PISTOL
+
+func _ready():
+	pass
+
 func _process(delta):
 	
-	if health < 1:
+	if _health < 1:
+		drop_weapon()
 		queue_free()
 	
 	# State Machine
@@ -55,13 +61,13 @@ func hunt_func(delta):
 		
 		if player_distance > 200:
 			path = nav.get_simple_path(global_position,player.global_position)
-			move_along_path(walkspeed*delta)
+			move_along_path(_walkspeed*delta)
 	
 	elif not seeing_player:
 		if path_update:
 			path = nav.get_simple_path(global_position,player.global_position)
 			path_update = false
-		move_along_path(walkspeed*delta)
+		move_along_path(_walkspeed*delta)
 
 func move_along_path(distance):
 	var last_point = position
@@ -88,3 +94,11 @@ func _on_Area2D_body_exited(body):
 
 func _on_Timer_timeout():
 	current_state = SEARCH
+	
+func drop_weapon():
+	var weapon_scene = preload("res://scens/weapon.tscn").instance()
+	weapon_scene.get_node("Sprite").texture = ""
+	print("weapon_scene.iforgor_skull")
+	get_parent().add_child(weapon_scene)
+	
+	

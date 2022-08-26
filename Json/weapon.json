@@ -1,6 +1,6 @@
 [
-  {
-    "name": "glock",
+"PISTOL" :
+{
     "range": 500,
     "type": "manual",
     "ammo": 15,
@@ -9,8 +9,8 @@
     "dmg" : 15,
     "reload_time": 4
   },
+"BOW":
   {
-    "name": "bow",
     "type": "projectile",
     "ammo": 4,
     "clipsize": 40,
@@ -19,15 +19,15 @@
     "bolt_speed": 30,
     "reload_time": 2
   },
+"FISTS":
   {
-    "name": "fists",
     "range": 50,
     "dmg": 25,
     "firerate": 0.5,
     "type": "melee"
   },
+"BAT":
   {
-    "name": "bat",
     "range": 70,
     "dmg": 45,
     "firerate": 1,

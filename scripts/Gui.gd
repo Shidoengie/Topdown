@@ -13,10 +13,10 @@ func _process(delta):
 	if Input.is_action_just_pressed("console"):
 		$Console.show()
 	match current_weapon:
-		Weapon.PISTOL:
+		Weapon.WEAPON_ENUM.PISTOL:
 			$Weapon_panel/Pistol_text.show()
 			$Weapon_panel/Punch_text.hide()
-		Weapon.FISTS:
+		Weapon.WEAPON_ENUM.FISTS:
 			$Weapon_panel/Pistol_text.hide()
 			$Weapon_panel/Punch_text.show()
 	match $Console/TextEdit.text:
