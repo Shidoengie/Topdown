@@ -175,7 +175,6 @@ tracks/1/keys = {
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 360, 480 )
 script = ExtResource( 2 )
-run_speed = 200
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )

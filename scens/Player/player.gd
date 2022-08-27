@@ -2,7 +2,6 @@ extends KinematicBody2D
 var velocity = Vector2.ZERO
 var is_reloading = false
 var inventory_dict = {}
-var current_weapon = Weapon.new()
 
 export var walk_speed = 100
 export var run_speed = 150
@@ -14,8 +13,6 @@ onready var Reload_timer = get_node("Reload_timer")
 onready var Firerate_timer = get_node("Firerate_timer")
 onready var Weapon_ray = get_node("RayCast2D")
 
-func _ready():
-	current_weapon.current_name = "PISTOL"
 func _physics_process(delta):
 	Stats.player_health = health
 	var inp_vec = Input.get_vector("left","right","up","down")
@@ -28,10 +25,10 @@ func _physics_process(delta):
 	else:
 		end_speed = walk_speed
 		Leg_anim.play("walk")
-		
+
 	velocity = inp_vec
 	look_at(get_global_mouse_position())
-	
+
 	velocity = move_and_slide(velocity*end_speed,Vector2.ZERO)
 	if health < 0: get_tree().quit()
 	weapons()
@@ -40,7 +37,7 @@ func weapons():
 	Weapon_ray.cast_to.x = Weapon.current_range
 	Reload_timer.wait_time = Weapon.current_reload
 	Firerate_timer.wait_time = Weapon.current_firerate
-	
+
 	var _current_ammo = Weapon.current_ammo[Weapon.current]
 	var collider = Weapon_ray.get_collider()
 	var not_null_or_tilemap = !(collider is TileMap) and Weapon_ray.is_colliding()
@@ -50,7 +47,7 @@ func weapons():
 	):
 		Reload_timer.start()
 		is_reloading = true
-		
+
 	if is_reloading:
 		return
 	match Weapon.current_type:
@@ -74,16 +71,15 @@ func weapons():
 				collider._health -= Weapon.current_dmg
 				collider.current_state = 2
 			melee_anim()
-	
+
 func melee_anim():
 	match Weapon.current:
 		Weapon.FISTS:
 			Body_anim.play("punch")
-	
+
 func add_item(item_type, item_name):
-	inventory_dict.keys().append(item_type)
 	inventory_dict[item_type] = item_name
-	
+
 	match item_type:
 		"Weapon":
 			Weapon.current = item_name

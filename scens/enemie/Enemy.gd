@@ -20,7 +20,7 @@ var seeing_player = false
 var been_hit = false
 var path_update = true
 
-var current_weapon = Weapon.WEAPON_ENUM.PISTOL
+var current_weapon = 0
 
 func _ready():
 	pass

@@ -1,8 +1,6 @@
 extends CanvasLayer
 
 
-
-
 func _process(delta):
 	var current_weapon = Weapon.current
 	$HpBar.value = Stats.player_health

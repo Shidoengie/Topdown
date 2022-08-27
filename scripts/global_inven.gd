@@ -1,5 +1,6 @@
 extends Node
 
+
 var inventory_dictionary = {}
 var json_str = ""
 var json_file = File.new()
