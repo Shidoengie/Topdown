@@ -38,8 +38,8 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Stats="*res://scripts/Stats.gd"
 GlobalInven="*res://scripts/global_inven.gd"
+GameManager="*res://scens/GameManager.tscn"
 
 [editor]
 

@@ -3,6 +3,8 @@ var velocity = Vector2.ZERO
 var is_reloading = false
 var inventory_dict = {}
 
+var current_weapon : Weapon
+
 export var walk_speed = 100
 export var run_speed = 150
 export var health = 100
@@ -13,8 +15,11 @@ onready var Reload_timer = get_node("Reload_timer")
 onready var Firerate_timer = get_node("Firerate_timer")
 onready var Weapon_ray = get_node("RayCast2D")
 
+func _ready():
+	current_weapon = GlobalInven.weapon_dict["FISTS"]
+	
 func _physics_process(delta):
-	Stats.player_health = health
+	GameManager.player_health = health
 	var inp_vec = Input.get_vector("left","right","up","down")
 	var end_speed = 0
 	if inp_vec == Vector2.ZERO:
@@ -34,14 +39,17 @@ func _physics_process(delta):
 	weapons()
 func weapons():
 
-	Weapon_ray.cast_to.x = Weapon.current_range
-	Reload_timer.wait_time = Weapon.current_reload
-	Firerate_timer.wait_time = Weapon.current_firerate
+	Weapon_ray.cast_to.x = current_weapon.attack_range
+	
+	Reload_timer.wait_time = current_weapon.reload_time 
+#	Firerate_timer.wait_time = current_weapon.firerate
+	Firerate_timer.wait_time = 1
 
-	var _current_ammo = Weapon.current_ammo[Weapon.current]
+	var _current_ammo = current_weapon.ammo
 	var collider = Weapon_ray.get_collider()
 	var not_null_or_tilemap = !(collider is TileMap) and Weapon_ray.is_colliding()
-	var _melee_and_reloading = Weapon.current_type != "melee" and not is_reloading
+	var _melee_and_reloading = current_weapon.uses_ammo and not is_reloading
+	
 	if ((_current_ammo < 1 and _melee_and_reloading) or 
 		(_melee_and_reloading and Input.is_action_just_pressed("reload"))
 	):
@@ -50,13 +58,13 @@ func weapons():
 
 	if is_reloading:
 		return
-	match Weapon.current_type:
+	match current_weapon.type:
 		"manual":
 			if !Input.is_action_just_pressed("Shoot"):
 				return
-			Weapon.current_ammo[Weapon.current] -= 1
+			current_weapon.ammo -= 1
 			if not_null_or_tilemap: 
-				collider._health -= Weapon.current_dmg
+				collider._health -= current_weapon.dammage
 				collider.current_state = 2
 		"auto":
 			if Input.is_action_pressed("Shoot"):
@@ -68,13 +76,13 @@ func weapons():
 			if !Input.is_action_just_pressed("Shoot"):
 				return
 			if not_null_or_tilemap: 
-				collider._health -= Weapon.current_dmg
+				collider._health -= current_weapon.dammage
 				collider.current_state = 2
 			melee_anim()
 
 func melee_anim():
-	match Weapon.current:
-		Weapon.FISTS:
+	match current_weapon.type:
+		"FISTS":
 			Body_anim.play("punch")
 
 func add_item(item_type, item_name):
@@ -87,9 +95,9 @@ func add_item(item_type, item_name):
 			pass
 
 func _on_Reload_timeout():
-	if Weapon.current_clipsize[Weapon.current] < 1:
+	if current_weapon.clipsize < 1:
 		return
-	Weapon.current_ammo[Weapon.current] = Weapon.max_ammo[Weapon.current]
-	Weapon.current_clipsize[Weapon.current] -= 1
+	current_weapon.ammo = current_weapon.max_ammo
+	current_weapon.clipsize -= 1
 	is_reloading = false
 

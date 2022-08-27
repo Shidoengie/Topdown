@@ -1,34 +1,43 @@
 {
   "PISTOL":
   {
-    "range": 500,
+
     "type": "manual",
+    "range": 500,
     "ammo": 15,
     "clipsize": 80,
     "firerate": 0.5,
     "dmg": 15,
-    "reload_time": 4
+    "reload_time": 4,
+    "can_shoot": true
   },
-  "BOW": {
+  "BOW":
+  {
+
     "type": "projectile",
+    "range": 500,
     "ammo": 4,
     "clipsize": 40,
     "dmg": 50,
     "firerate": 1,
     "bolt_speed": 30,
-    "reload_time": 2
+    "reload_time": 2,
+    "can_shoot": true
   },
   "FISTS":
   {
+    "type": "melee",
     "range": 50,
     "dmg": 25,
     "firerate": 0.5,
-    "type": "melee"
+    "can_shoot": false
   },
-  "BAT": {
+  "BAT":
+  {
+    "type": "melee",
     "range": 70,
     "dmg": 45,
     "firerate": 1,
-    "type": "melee"
+    "can_shoot": false
   }
 }
