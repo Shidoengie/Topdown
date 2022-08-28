@@ -16,6 +16,7 @@ onready var Firerate_timer = get_node("Firerate_timer")
 onready var Weapon_ray = get_node("RayCast2D")
 
 func _ready():
+	
 	current_weapon = GlobalInven.weapon_dict["FISTS"]
 	
 	
