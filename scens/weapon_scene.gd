@@ -7,6 +7,7 @@ extends Area2D
 
 var iforgor_skull = "uh oh i forgor"
 var weapon = Weapon.new()
+var weapon_name : String
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	 
@@ -16,3 +17,9 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+
+func _on_Area2D_body_entered(body):
+	if body.name == "Player":
+		body.add_weapon("Weapon", weapon_name)
+		queue_free()

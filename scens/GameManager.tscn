@@ -1,8 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://scripts/GameManager.gd" type="Script" id=1]
-[ext_resource path="res://assets/pistol.png" type="Texture" id=2]
 
 [node name="Node" type="Node"]
 script = ExtResource( 1 )
-pistol_sprite = ExtResource( 2 )

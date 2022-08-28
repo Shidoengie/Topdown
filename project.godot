@@ -9,7 +9,7 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "EditorVCSInterface",
+"base": "",
 "class": "GitAPI",
 "language": "NativeScript",
 "path": "res://addons/godot-git-plugin/git_api.gdns"
@@ -39,7 +39,7 @@ config/icon="res://icon.png"
 [autoload]
 
 GlobalInven="*res://scripts/global_inven.gd"
-GameManager="*res://scens/GameManager.tscn"
+GameManager="*res://scripts/GameManager.gd"
 
 [editor]
 

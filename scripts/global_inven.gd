@@ -1,13 +1,11 @@
 extends Node
 
-
 var inventory_dictionary = {}
 
 var weapon_dict  = {}
 var json_str = ""
 var json_file = File.new()
 var data
-
 
 #List of currently available weapons
 var unlocked_weapons = []
@@ -20,9 +18,12 @@ func _ready():
 		var inner_dict = data.result[i]
 		var weapon = Weapon.new()
 		weapon.model_name = str(i)
+		weapon.sprite_texture = load("res://assets/weapon/" + "PISTOL" + ".png")
+		print(weapon.model_name)
 		weapon.type = inner_dict["type"]
 		weapon.attack_range = inner_dict["range"]
 		weapon.firerate = inner_dict["firerate"]
+		weapon.dammage = inner_dict["dmg"]
 		if inner_dict["can_shoot"]:
 			weapon.max_ammo = inner_dict["ammo"]
 			weapon.ammo = inner_dict["ammo"]
@@ -36,9 +37,6 @@ func _ready():
 			weapon.max_clipsize = 1
 			weapon.reload_time = 1
 		weapon_dict[i] = weapon
-func pick_item():
-	
-	pass
 
 	# Check for weapons that need ammo
 #	for i in data.result:
