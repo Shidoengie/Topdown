@@ -19,10 +19,10 @@ func _ready():
 	for i in data.result:
 		var inner_dict = data.result[i]
 		var weapon = Weapon.new()
-		weapon.model_name = i
+		weapon.model_name = str(i)
 		weapon.type = inner_dict["type"]
 		weapon.attack_range = inner_dict["range"]
-		weapon.firerate= inner_dict["firerate"]
+		weapon.firerate = inner_dict["firerate"]
 		if inner_dict["can_shoot"]:
 			weapon.max_ammo = inner_dict["ammo"]
 			weapon.ammo = inner_dict["ammo"]
@@ -36,7 +36,6 @@ func _ready():
 			weapon.max_clipsize = 1
 			weapon.reload_time = 1
 		weapon_dict[i] = weapon
-	print(weapon_dict)
 func pick_item():
 	
 	pass

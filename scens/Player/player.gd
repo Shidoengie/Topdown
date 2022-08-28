@@ -18,6 +18,7 @@ onready var Weapon_ray = get_node("RayCast2D")
 func _ready():
 	current_weapon = GlobalInven.weapon_dict["FISTS"]
 	
+	
 func _physics_process(delta):
 	GameManager.player_health = health
 	var inp_vec = Input.get_vector("left","right","up","down")
@@ -81,7 +82,7 @@ func weapons():
 			melee_anim()
 
 func melee_anim():
-	match current_weapon.type:
+	match current_weapon.model_name:
 		"FISTS":
 			Body_anim.play("punch")
 
