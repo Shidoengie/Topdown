@@ -23,7 +23,8 @@ func _ready():
 		weapon.attack_range = inner_dict["range"]
 		weapon.firerate = inner_dict["firerate"]
 		weapon.dammage = inner_dict["dmg"]
-		if inner_dict["can_shoot"]:
+		weapon.uses_ammo = inner_dict["can_shoot"]
+		if weapon.uses_ammo:
 			weapon.max_ammo = inner_dict["ammo"]
 			weapon.ammo = inner_dict["ammo"]
 			weapon.clipsize = inner_dict["clipsize"]
