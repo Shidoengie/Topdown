@@ -39,7 +39,7 @@ config/icon="res://icon.png"
 [autoload]
 
 GlobalInven="*res://scripts/global_inven.gd"
-GameManager="*res://scens/GameManager.tscn"
+GameManager="*res://scripts/GameManager.gd"
 
 [editor]
 

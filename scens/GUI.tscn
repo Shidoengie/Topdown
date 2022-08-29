@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scripts/Gui.gd" type="Script" id=1]
 [ext_resource path="res://assets/P_punch.png" type="Texture" id=2]
-[ext_resource path="res://assets/pistol.png" type="Texture" id=3]
+[ext_resource path="res://assets/weapon/PISTOL.png" type="Texture" id=3]
 [ext_resource path="res://assets/map_placeholder.png" type="Texture" id=4]
 
 [node name="CanvasLayer" type="CanvasLayer"]

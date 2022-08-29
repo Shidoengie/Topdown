@@ -1,4 +1,5 @@
 extends KinematicBody2D
+
 var velocity = Vector2.ZERO
 var is_reloading = false
 var inventory_dict = {}
@@ -87,14 +88,8 @@ func melee_anim():
 		"FISTS":
 			Body_anim.play("punch")
 
-func add_item(item_type, item_name):
-	inventory_dict[item_type] = item_name
-
-	match item_type:
-		"Weapon":
-			Weapon.current = item_name
-		"Consumable":
-			pass
+func add_weapon(type, name):
+	inventory_dict[type] = name
 
 func _on_Reload_timeout():
 	if current_weapon.clipsize < 1:

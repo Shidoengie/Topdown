@@ -20,16 +20,16 @@ var seeing_player = false
 var been_hit = false
 var path_update = true
 
-var current_weapon = 0
+var current_weapon : Weapon
 
 func _ready():
-	pass
+	current_weapon = GlobalInven.weapon_dict["PISTOL"]
+	
 
 func _process(delta):
 	
 	if _health < 1:
-		drop_weapon()
-		queue_free()
+		die()
 	
 	# State Machine
 	match current_state:
@@ -95,10 +95,13 @@ func _on_Area2D_body_exited(body):
 func _on_Timer_timeout():
 	current_state = SEARCH
 	
-func drop_weapon():
+func die():
 	var weapon_scene = preload("res://scens/weapon.tscn").instance()
-	weapon_scene.get_node("Sprite").texture = ""
-	print("weapon_scene.iforgor_skull")
+	weapon_scene.get_node("Sprite").texture = current_weapon.sprite_texture
+	var new_wp_collider = RectangleShape2D.new()
+	new_wp_collider.extents = current_weapon.sprite_texture.get_size()/1.5
+	weapon_scene.get_node("CollisionShape2D").shape = new_wp_collider
+	weapon_scene.position = position
+	weapon_scene.weapon_name = current_weapon.model_name
 	get_parent().add_child(weapon_scene)
-	
-	
+	queue_free()
