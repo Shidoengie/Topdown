@@ -7,7 +7,7 @@ func _process(delta):
 	$HpBar.value = GameManager.player_health
 	if current_weapon.uses_ammo:
 
-		$Weapon_panel/Ammo.text = str(current_weapon.ammo) + "\n" + str(current_weapon.clipsize)
+		$Weapon_panel/Ammo.text = str(current_weapon.ammo) + "\n" + str(current_weapon.clip)
 	else:
 
 		$Weapon_panel/Ammo.hide()

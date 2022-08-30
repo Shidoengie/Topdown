@@ -11,6 +11,6 @@ var attack_range : float
 var reload_time : float
 var ammo : int
 var max_ammo : int
-var clipsize : int
-var max_clipsize : int
+var clip : int
+var max_clip : int
 var uses_ammo : bool

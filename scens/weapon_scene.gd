@@ -15,5 +15,5 @@ func _ready():
 
 func _on_Area2D_body_entered(body):
 	if body.name == "Player":
-		body.add_weapon("Weapon", weapon_name)
+		body.add_weapon(weapon_name, GlobalInven.weapon_dict[weapon_name])
 		queue_free()

@@ -18,8 +18,8 @@ onready var Weapon_ray = get_node("RayCast2D")
 
 func _ready():
 	
-	current_weapon = GlobalInven.weapon_dict["FISTS"]
-	
+	current_weapon = GlobalInven.weapon_dict["PISTOL"]
+	inventory_dict["PISTOL"] = current_weapon
 	
 func _physics_process(delta):
 	GameManager.player_health = health
@@ -88,13 +88,20 @@ func melee_anim():
 		"FISTS":
 			Body_anim.play("punch")
 
-func add_weapon(type, name):
-	inventory_dict[type] = name
-
+func add_weapon(name, weapon):
+	
+	if inventory_dict.has(name):
+		var inv_wp = inventory_dict[name] as Weapon
+		if inv_wp.ammo == inv_wp.max_ammo:
+			inv_wp.clip = clamp(inv_wp.clip + 1,0,inv_wp.max_clip)
+			return
+		inv_wp.ammo = inv_wp.max_ammo
+	inventory_dict[name] = weapon
+	
 func _on_Reload_timeout():
-	if current_weapon.clipsize < 1:
+	if current_weapon.clip < 1:
 		return
 	current_weapon.ammo = current_weapon.max_ammo
-	current_weapon.clipsize -= 1
+	current_weapon.clip -= 1
 	is_reloading = false
 

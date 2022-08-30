@@ -27,14 +27,14 @@ func _ready():
 		if weapon.uses_ammo:
 			weapon.max_ammo = inner_dict["ammo"]
 			weapon.ammo = inner_dict["ammo"]
-			weapon.clipsize = inner_dict["clipsize"]
-			weapon.max_clipsize = inner_dict["clipsize"]
+			weapon.clip = inner_dict["clipsize"]
+			weapon.max_clip = inner_dict["clipsize"]
 			weapon.reload_time = inner_dict["reload_time"]
 		else:
 			weapon.max_ammo = 1
 			weapon.ammo = 1
-			weapon.clipsize = 1
-			weapon.max_clipsize = 1
+			weapon.clip= 1
+			weapon.max_clip = 1
 			weapon.reload_time = 1
 		weapon_dict[i] = weapon
 
