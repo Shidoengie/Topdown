@@ -118,3 +118,5 @@ anchor_bottom = 1.0
 margin_top = -120.0
 margin_right = 185.0
 texture = ExtResource( 4 )
+
+[connection signal="text_entered" from="Console/TextEdit" to="." method="_on_TextEdit_text_entered"]
