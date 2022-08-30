@@ -11,8 +11,6 @@ func _process(delta):
 	else:
 
 		$Weapon_panel/Ammo.hide()
-	if Input.is_action_just_pressed("console"):
-		$Console.visible = not $Console.visible
 	match current_weapon.model_name:
 		"PISTOL":
 			$Weapon_panel/Pistol_text.show()
@@ -20,12 +18,15 @@ func _process(delta):
 		"FISTS":
 			$Weapon_panel/Pistol_text.hide()
 			$Weapon_panel/Punch_text.show()
-	
 
 
-
+func _input(event):
+	if event is InputEvent:
+		if event.is_action_pressed("console"):
+			$Console.visible = not $Console.visible
 func _on_TextEdit_text_entered(new_text):
 	match new_text:
 		"weapons":
 			player.inventory_dict = GlobalInven.weapon_dict.duplicate()
 			print(player.inventory_dict)
+	$Console.hide()
