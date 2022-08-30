@@ -28,5 +28,5 @@ func _on_TextEdit_text_entered(new_text):
 	match new_text:
 		"weapons":
 			player.inventory_dict = GlobalInven.weapon_dict.duplicate()
-			print(player.inventory_dict)
+			
 	$Console.hide()

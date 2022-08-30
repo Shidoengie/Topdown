@@ -13,7 +13,6 @@ export var health = 100
 onready var Leg_anim = get_node("Leg_anim")
 onready var Body_anim = get_node("Body_anim")
 onready var Reload_timer = get_node("Reload_timer")
-onready var Firerate_timer = get_node("Firerate_timer")
 onready var Weapon_ray = get_node("RayCast2D")
 
 func _ready():
@@ -40,13 +39,12 @@ func _physics_process(delta):
 	velocity = move_and_slide(velocity*end_speed,Vector2.ZERO)
 	if health < 0: get_tree().quit()
 	weapons()
+
 func weapons():
 
 	Weapon_ray.cast_to.x = current_weapon.attack_range
 	
 	Reload_timer.wait_time = current_weapon.reload_time 
-#	Firerate_timer.wait_time = current_weapon.firerate
-	Firerate_timer.wait_time = 1
 
 	var _current_ammo = current_weapon.ammo
 	var collider = Weapon_ray.get_collider()
@@ -105,3 +103,5 @@ func _on_Reload_timeout():
 	current_weapon.clip -= 1
 	is_reloading = false
 
+func _on_Body_anim_animation_finished(anim_name):
+	pass # Replace with function body.

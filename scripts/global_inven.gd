@@ -37,12 +37,3 @@ func _ready():
 			weapon.max_clip = 1
 			weapon.reload_time = 1
 		weapon_dict[i] = weapon
-
-	# Check for weapons that need ammo
-#	for i in data.result:
-#		if i["type"] == "melee":
-#			continue
-#		max_ammo.append(i["ammo"])
-#		max_clipsize.append(i["clipsize"])
-#	current_ammo = max_ammo.duplicate()
-#	current_clipsize = max_clipsize.duplicate()
