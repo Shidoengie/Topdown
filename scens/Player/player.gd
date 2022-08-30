@@ -79,13 +79,19 @@ func weapons():
 			if not_null_or_tilemap: 
 				collider._health -= current_weapon.dammage
 				collider.current_state = 2
-			melee_anim()
 
-func melee_anim():
+func weapon_anim():
 	match current_weapon.model_name:
 		"FISTS":
 			Body_anim.play("punch")
-
+		"PISTOL":
+			Body_anim.play("punch")
+			
+func _input(event):
+	if event is InputEventAction and event.is_action_pressed("Shoot"):
+		weapon_anim()
+		
+	
 func add_weapon(name, weapon):
 	
 	if inventory_dict.has(name):
