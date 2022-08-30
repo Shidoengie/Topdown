@@ -23,14 +23,12 @@ var path_update = true
 var current_weapon : Weapon
 
 func _ready():
-	current_weapon = GlobalInven.weapon_dict["PISTOL"]
+	current_weapon = GlobalInven.weapon_dict["PISTOL"].duplicate()
 	
 
 func _process(delta):
-	
 	if _health < 1:
 		die()
-	
 	# State Machine
 	match current_state:
 		# Search

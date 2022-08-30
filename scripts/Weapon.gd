@@ -2,15 +2,15 @@ extends Item
 
 class_name Weapon
 
-var type : String
-var sprite_texture : Texture 
-var model_name : String
-var dammage  : float
-var firerate  : int
-var attack_range : float
-var reload_time : float
-var ammo : int
-var max_ammo : int
-var clip : int
-var max_clip : int
-var uses_ammo : bool
+export var type : String
+export var sprite_texture : Texture 
+export var model_name : String
+export var dammage  : float
+export var firerate  : int
+export var attack_range : float
+export var reload_time : float
+export var ammo : int
+export var max_ammo : int
+export var clip : int
+export var max_clip : int
+export var uses_ammo : bool

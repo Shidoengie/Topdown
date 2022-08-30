@@ -18,7 +18,7 @@ onready var Weapon_ray = get_node("RayCast2D")
 
 func _ready():
 	
-	current_weapon = GlobalInven.weapon_dict["PISTOL"]
+	current_weapon = GlobalInven.weapon_dict["PISTOL"].duplicate()
 	inventory_dict["PISTOL"] = current_weapon
 	
 func _physics_process(delta):
