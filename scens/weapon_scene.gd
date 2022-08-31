@@ -25,7 +25,6 @@ func _on_VisibilityNotifier2D_screen_entered():
 
 func _on_VisibilityNotifier2D_screen_exited():
 	$Timer.start()
-	
 
 func _on_Timer_timeout():
 	queue_free()

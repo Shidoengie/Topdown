@@ -2,7 +2,7 @@
   "PISTOL":
   {
 
-    "fire_type": "single",
+    "single_fire": true,
     "range": 500,
     "ammo": 15,
     "clipsize": 80,
@@ -15,7 +15,7 @@
   "BOW":
   {
 
-    "fire_type": "single",
+    "single_fire": true,
     "range": 500,
     "ammo": 4,
     "clipsize": 40,
@@ -28,7 +28,7 @@
   },
   "FISTS":
   {
-    "fire_type": "single",
+    "single_fire": true,
     "range": 50,
     "dmg": 25,
     "firerate": 0.5,
@@ -37,7 +37,7 @@
   },
   "BAT":
   {
-    "fire_type": "single",
+    "single_fire": true,
     "range": 70,
     "dmg": 45,
     "firerate": 1,

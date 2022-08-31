@@ -56,7 +56,7 @@ func weapons():
 
 	if is_reloading:
 		return
-	if current_weapon.fire_type == "single":
+	if current_weapon.single_fire:
 		if !Input.is_action_just_pressed("Shoot"):
 			return
 		if current_weapon.uses_ammo:
@@ -67,7 +67,7 @@ func weapons():
 		if not_null_or_tilemap: 
 			collider._health -= current_weapon.dammage
 			collider.current_state = 2
-	elif current_weapon.fire_type == "auto":
+	else:
 		if Input.is_action_pressed("Shoot"):
 			pass
 
