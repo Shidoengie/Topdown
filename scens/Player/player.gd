@@ -38,14 +38,11 @@ func _physics_process(delta):
 
 	velocity = move_and_slide(velocity*end_speed,Vector2.ZERO)
 	if health < 0: get_tree().quit()
-	weapons()
 
 func weapons():
 
 	Weapon_ray.cast_to.x = current_weapon.attack_range
-	
 	Reload_timer.wait_time = current_weapon.reload_time 
-
 	var _current_ammo = current_weapon.ammo
 	var collider = Weapon_ray.get_collider()
 	var not_null_or_tilemap = !(collider is TileMap) and Weapon_ray.is_colliding()
@@ -59,38 +56,30 @@ func weapons():
 
 	if is_reloading:
 		return
-	match current_weapon.type:
-		"manual":
-			if !Input.is_action_just_pressed("Shoot"):
-				return
+	if current_weapon.fire_type == "single":
+		if !Input.is_action_just_pressed("Shoot"):
+			return
+		if current_weapon.uses_ammo:
 			current_weapon.ammo -= 1
-			if not_null_or_tilemap: 
-				collider._health -= current_weapon.dammage
-				collider.current_state = 2
-		"auto":
-			if Input.is_action_pressed("Shoot"):
-				pass
-		"projectile":
-			if Input.is_action_just_pressed("Shoot"):
-				pass
-		"melee":
-			if !Input.is_action_just_pressed("Shoot"):
-				return
-			if not_null_or_tilemap: 
-				collider._health -= current_weapon.dammage
-				collider.current_state = 2
+		manual_anim()
+		if current_weapon.projectile:
+			return
+		if not_null_or_tilemap: 
+			collider._health -= current_weapon.dammage
+			collider.current_state = 2
+	elif current_weapon.fire_type == "auto":
+		if Input.is_action_pressed("Shoot"):
+			pass
 
-func weapon_anim():
+func manual_anim():
 	match current_weapon.model_name:
 		"FISTS":
 			Body_anim.play("punch")
 		"PISTOL":
 			Body_anim.play("punch")
-			
 func _input(event):
-	if event is InputEventAction and event.is_action_pressed("Shoot"):
-		weapon_anim()
-		
+	if event is InputEvent:
+		weapons()
 	
 func add_weapon(name, weapon):
 	

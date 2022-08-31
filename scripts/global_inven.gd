@@ -19,11 +19,12 @@ func _ready():
 		var weapon = Weapon.new()
 		weapon.model_name = str(i)
 		weapon.sprite_texture = load("res://assets/weapon/" + "PISTOL" + ".png")
-		weapon.type = inner_dict["type"]
+		weapon.fire_type = inner_dict["fire_type"]
 		weapon.attack_range = inner_dict["range"]
 		weapon.firerate = inner_dict["firerate"]
 		weapon.dammage = inner_dict["dmg"]
 		weapon.uses_ammo = inner_dict["can_shoot"]
+		weapon.projectile = inner_dict["projectile"]
 		if weapon.uses_ammo:
 			weapon.max_ammo = inner_dict["ammo"]
 			weapon.ammo = inner_dict["ammo"]
