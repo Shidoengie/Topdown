@@ -10,7 +10,6 @@ func _ready():
 func _physics_process(delta):
 	position += dir * speed * delta
 
-var i =false 
 func _on_Bullet_body_entered(body):
 	var dict = {}
 	

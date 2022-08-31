@@ -9,13 +9,25 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "",
+"base": "EditorVCSInterface",
 "class": "GitAPI",
 "language": "NativeScript",
 "path": "res://addons/godot-git-plugin/git_api.gdns"
+}, {
+"base": "Node",
+"class": "Item",
+"language": "GDScript",
+"path": "res://scripts/item.gd"
+}, {
+"base": "Item",
+"class": "Weapon",
+"language": "GDScript",
+"path": "res://scripts/Weapon.gd"
 } ]
 _global_script_class_icons={
-"GitAPI": ""
+"GitAPI": "",
+"Item": "",
+"Weapon": ""
 }
 
 [application]
@@ -26,8 +38,8 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Weapon="*res://scripts/Weapon.gd"
-Stats="*res://scripts/Stats.gd"
+GlobalInven="*res://scripts/global_inven.gd"
+GameManager="*res://scripts/GameManager.gd"
 
 [editor]
 
@@ -107,6 +119,7 @@ reload={
 Shoot={
 "deadzone": 0.5,
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+, Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
 

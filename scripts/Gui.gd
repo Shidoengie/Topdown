@@ -1,25 +1,32 @@
 extends CanvasLayer
-
-
-
+#
+onready var player = get_parent().find_node("Player")
+onready var current_weapon = player.current_weapon as Weapon
 
 func _process(delta):
-	var current_weapon = Weapon.current
-	$HpBar.value = Stats.player_health
-	if Weapon.current_type != "melee":
-		$Weapon_panel/Ammo.text = str(Weapon.current_ammo[current_weapon]) + "\n" + str(Weapon.current_clipsize[current_weapon])
+	$HpBar.value = GameManager.player_health
+	if current_weapon.uses_ammo:
+
+		$Weapon_panel/Ammo.text = str(current_weapon.ammo) + "\n" + str(current_weapon.clip)
 	else:
-		$Ammo.hide()
-	if Input.is_action_just_pressed("console"):
-		$Console.show()
-	match current_weapon:
-		Weapon.PISTOL:
+
+		$Weapon_panel/Ammo.hide()
+	match current_weapon.model_name:
+		"PISTOL":
 			$Weapon_panel/Pistol_text.show()
 			$Weapon_panel/Punch_text.hide()
-		Weapon.FISTS:
+		"FISTS":
 			$Weapon_panel/Pistol_text.hide()
 			$Weapon_panel/Punch_text.show()
-	match $Console/TextEdit.text:
-		"weapons":
-			Weapon.unlocked = [Weapon.BOW,Weapon.PISTOL,Weapon.FISTS,Weapon.BAT]
 
+
+func _input(event):
+	if event is InputEvent:
+		if event.is_action_pressed("console"):
+			$Console.visible = not $Console.visible
+func _on_TextEdit_text_entered(new_text):
+	match new_text:
+		"weapons":
+			player.inventory_dict = GlobalInven.weapon_dict.duplicate()
+			
+	$Console.hide()

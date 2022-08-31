@@ -1,36 +1,47 @@
-[
+{
+  "PISTOL":
   {
-    "name": "glock",
+
+    "single_fire": true,
     "range": 500,
-    "type": "manual",
     "ammo": 15,
     "clipsize": 80,
     "firerate": 0.5,
-    "dmg" : 15,
-    "reload_time": 4
+    "dmg": 15,
+    "reload_time": 4,
+    "can_shoot": true,
+    "projectile": false
   },
+  "BOW":
   {
-    "name": "bow",
-    "type": "projectile",
+
+    "single_fire": true,
+    "range": 500,
     "ammo": 4,
     "clipsize": 40,
-    "dmg" : 50,
+    "dmg": 50,
     "firerate": 1,
     "bolt_speed": 30,
-    "reload_time": 2
+    "reload_time": 2,
+    "can_shoot": true,
+    "projectile": true
   },
+  "FISTS":
   {
-    "name": "fists",
+    "single_fire": true,
     "range": 50,
     "dmg": 25,
     "firerate": 0.5,
-    "type": "melee"
+    "can_shoot": false,
+    "projectile": false
   },
+  "BAT":
   {
-    "name": "bat",
+    "single_fire": true,
     "range": 70,
     "dmg": 45,
     "firerate": 1,
-    "type": "melee"
+    "can_shoot": false,
+    "projectile": false
   }
-]
+}

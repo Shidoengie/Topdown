@@ -175,7 +175,6 @@ tracks/1/keys = {
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 360, 480 )
 script = ExtResource( 2 )
-run_speed = 200
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
@@ -215,7 +214,6 @@ anims/walk = SubResource( 4 )
 [node name="Reload_timer" type="Timer" parent="."]
 one_shot = true
 
-[node name="Firerate_timer" type="Timer" parent="."]
-one_shot = true
-
+[connection signal="animation_finished" from="Body_anim" to="." method="_on_Body_anim_animation_finished"]
+[connection signal="animation_started" from="Body_anim" to="." method="_on_Body_anim_animation_started"]
 [connection signal="timeout" from="Reload_timer" to="." method="_on_Reload_timeout"]
