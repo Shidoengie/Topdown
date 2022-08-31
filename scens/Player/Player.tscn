@@ -215,4 +215,5 @@ anims/walk = SubResource( 4 )
 one_shot = true
 
 [connection signal="animation_finished" from="Body_anim" to="." method="_on_Body_anim_animation_finished"]
+[connection signal="animation_started" from="Body_anim" to="." method="_on_Body_anim_animation_started"]
 [connection signal="timeout" from="Reload_timer" to="." method="_on_Reload_timeout"]

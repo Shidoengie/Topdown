@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 var velocity = Vector2.ZERO
 var is_reloading = false
+var cant_shoot = false
 var inventory_dict = {}
 
 var current_weapon : Weapon
@@ -48,14 +49,16 @@ func weapons():
 	var not_null_or_tilemap = !(collider is TileMap) and Weapon_ray.is_colliding()
 	var _melee_and_reloading = current_weapon.uses_ammo and not is_reloading
 	
+	Body_anim.playback_speed = current_weapon.firerate
 	if ((_current_ammo < 1 and _melee_and_reloading) or 
 		(_melee_and_reloading and Input.is_action_just_pressed("reload"))
 	):
 		Reload_timer.start()
 		is_reloading = true
 
-	if is_reloading:
+	if is_reloading or cant_shoot:
 		return
+	
 	if current_weapon.single_fire:
 		if !Input.is_action_just_pressed("Shoot"):
 			return
@@ -99,4 +102,7 @@ func _on_Reload_timeout():
 	is_reloading = false
 
 func _on_Body_anim_animation_finished(anim_name):
-	pass # Replace with function body.
+	cant_shoot = false
+
+func _on_Body_anim_animation_started(anim_name):
+	cant_shoot = true
