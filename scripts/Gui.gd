@@ -4,7 +4,8 @@ onready var player = get_parent().find_node("Player")
 onready var current_weapon = player.current_weapon as Weapon
 
 func _process(delta):
-	$HpBar.value = GameManager.player_health
+	$HpBar.value = player.health
+	$Money_label.text = str(player.money)
 	if current_weapon.uses_ammo:
 
 		$Weapon_panel/Ammo.text = str(current_weapon.ammo) + "\n" + str(current_weapon.clip)
@@ -18,7 +19,7 @@ func _process(delta):
 		"FISTS":
 			$Weapon_panel/Pistol_text.hide()
 			$Weapon_panel/Punch_text.show()
-
+		
 
 func _input(event):
 	if event is InputEvent:

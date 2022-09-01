@@ -6,6 +6,7 @@ var cant_shoot = false
 var inventory_dict = {}
 
 var current_weapon : Weapon
+var money = 0
 
 export var walk_speed = 100
 export var run_speed = 150
@@ -22,7 +23,6 @@ func _ready():
 	inventory_dict[current_weapon.model_name] = current_weapon
 
 func _physics_process(delta):
-	GameManager.player_health = health
 	var inp_vec = Input.get_vector("left","right","up","down")
 	var end_speed = 0
 	if inp_vec == Vector2.ZERO:

@@ -95,11 +95,14 @@ func _on_Timer_timeout():
 	
 func die():
 	var weapon_scene = preload("res://scens/weapon.tscn").instance()
+	var mone_scene = preload("res://scens/mone.tscn").instance()
 	weapon_scene.get_node("Sprite").texture = current_weapon.sprite_texture
 	var new_wp_collider = RectangleShape2D.new()
 	new_wp_collider.extents = current_weapon.sprite_texture.get_size()/1.5
 	weapon_scene.get_node("CollisionShape2D").shape = new_wp_collider
 	weapon_scene.position = position
 	weapon_scene.weapon_name = current_weapon.model_name
+	mone_scene.position = position
 	get_parent().add_child(weapon_scene)
+	get_parent().add_child(mone_scene)
 	queue_free()

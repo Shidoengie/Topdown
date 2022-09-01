@@ -122,4 +122,10 @@ margin_top = -120.0
 margin_right = 185.0
 texture = ExtResource( 4 )
 
+[node name="Money_label" type="Label" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -40.0
+margin_bottom = 14.0
+
 [connection signal="text_entered" from="Console/TextEdit" to="." method="_on_TextEdit_text_entered"]
