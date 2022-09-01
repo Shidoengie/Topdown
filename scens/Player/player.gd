@@ -18,9 +18,9 @@ onready var Weapon_ray = get_node("RayCast2D")
 
 func _ready():
 	
-	current_weapon = GlobalInven.weapon_dict["PISTOL"].duplicate()
-	inventory_dict["PISTOL"] = current_weapon
-	
+	current_weapon = GlobalInven.weapon_dict["AUTO_PISTOL"].duplicate()
+	inventory_dict[current_weapon.model_name] = current_weapon
+
 func _physics_process(delta):
 	GameManager.player_health = health
 	var inp_vec = Input.get_vector("left","right","up","down")
@@ -39,7 +39,10 @@ func _physics_process(delta):
 
 	velocity = move_and_slide(velocity*end_speed,Vector2.ZERO)
 	if health < 0: get_tree().quit()
-
+	weapons()
+func _input(event):
+	if event is InputEvent:
+		pass
 func weapons():
 
 	Weapon_ray.cast_to.x = current_weapon.attack_range
@@ -48,8 +51,9 @@ func weapons():
 	var collider = Weapon_ray.get_collider()
 	var not_null_or_tilemap = !(collider is TileMap) and Weapon_ray.is_colliding()
 	var _melee_and_reloading = current_weapon.uses_ammo and not is_reloading
-	
+
 	Body_anim.playback_speed = current_weapon.firerate
+	
 	if ((_current_ammo < 1 and _melee_and_reloading) or 
 		(_melee_and_reloading and Input.is_action_just_pressed("reload"))
 	):
@@ -64,28 +68,31 @@ func weapons():
 			return
 		if current_weapon.uses_ammo:
 			current_weapon.ammo -= 1
-		manual_anim()
+		weapon_anim()
 		if current_weapon.projectile:
 			return
 		if not_null_or_tilemap: 
 			collider._health -= current_weapon.dammage
 			collider.current_state = 2
 	else:
-		if Input.is_action_pressed("Shoot"):
-			pass
+		if !Input.is_action_pressed("Shoot"):
+			return
+		weapon_anim()
+		if current_weapon.uses_ammo:
+			current_weapon.ammo -= 1
+		if not_null_or_tilemap: 
+			collider._health -= current_weapon.dammage
+			collider.current_state = 2
 
-func manual_anim():
+func weapon_anim():
 	match current_weapon.model_name:
 		"FISTS":
 			Body_anim.play("punch")
 		"PISTOL":
 			Body_anim.play("punch")
-func _input(event):
-	if event is InputEvent:
-		weapons()
-	
+		_:
+			Body_anim.play("punch")
 func add_weapon(name, weapon):
-	
 	if inventory_dict.has(name):
 		var inv_wp = inventory_dict[name] as Weapon
 		if inv_wp.ammo == inv_wp.max_ammo:
