@@ -38,7 +38,10 @@ func _physics_process(delta):
 	look_at(get_global_mouse_position())
 
 	velocity = move_and_slide(velocity*end_speed,Vector2.ZERO)
-	if health < 0: get_tree().quit()
+	if health <= 0: 
+		
+		get_tree().quit()
+		
 	weapons()
 func _input(event):
 	if event is InputEvent:
