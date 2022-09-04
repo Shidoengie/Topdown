@@ -54,7 +54,7 @@ func _physics_process(delta):
 		end_speed = run_speed
 		Leg_anim.play("run")
 		if stamina <= 0:
-			health -= 1 *delta
+			health -= 1.5 *delta
 		else:
 			stamina -=  2*delta
 	else:
@@ -70,6 +70,9 @@ func _physics_process(delta):
 	weapons()
 	if can_regen_stamina:
 		stamina += 4*delta
+	if stamina > max_stamina:
+		can_regen_stamina = false
+		stamina = max_stamina
 func weapons():
 
 	Weapon_ray.cast_to.x = current_weapon.attack_range
