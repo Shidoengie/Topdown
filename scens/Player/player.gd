@@ -5,47 +5,71 @@ var is_reloading = false
 var cant_shoot = false
 var inventory_dict = {}
 
+
 var current_weapon : Weapon
 var money = 0
 
-export var walk_speed = 100
-export var run_speed = 150
-export var health = 100
+var max_stamina
+var hp_RegenTime
+var stamina_RegenTime
+var stamina
+var walk_speed
+var run_speed
+var max_health
+var health
+
+var can_regen_stamina = false
 
 onready var Leg_anim = get_node("Leg_anim")
 onready var Body_anim = get_node("Body_anim")
 onready var Reload_timer = get_node("Reload_timer")
 onready var Weapon_ray = get_node("RayCast2D")
+onready var Rest_Timer = get_node("Rest_Timer")
 
 func _ready():
-	
+	var json_file = File.new()
+	json_file.open("res://Json/PlayerStats.json",File.READ_WRITE)
+	var json_str = json_file.get_as_text()
+	var data = JSON.parse(json_str)
+	max_stamina = data.result["max_stamina"]
+	max_health = data.result["max_health"]
+	hp_RegenTime = data.result["hp_RegenTime"]
+	stamina_RegenTime = data.result["hp_RegenTime"]
+	walk_speed = data.result["walk_speed"]
+	run_speed = data.result["run_speed"]
+	health = max_health
+	stamina = max_stamina
 	current_weapon = GlobalInven.weapon_dict["AUTO_PISTOL"].duplicate()
 	inventory_dict[current_weapon.model_name] = current_weapon
-
+	Rest_Timer.wait_time = stamina_RegenTime
+	
 func _physics_process(delta):
 	var inp_vec = Input.get_vector("left","right","up","down")
 	var end_speed = 0
 	if inp_vec == Vector2.ZERO:
 		Leg_anim.play("RESET")
 	elif Input.is_action_pressed("Run"):
+		can_regen_stamina = false
+		Rest_Timer.start()
 		end_speed = run_speed
 		Leg_anim.play("run")
+		if stamina <= 0:
+			health -= 1 *delta
+		else:
+			stamina -=  2*delta
 	else:
+		Rest_Timer.start()
 		end_speed = walk_speed
 		Leg_anim.play("walk")
-
 	velocity = inp_vec
 	look_at(get_global_mouse_position())
 
 	velocity = move_and_slide(velocity*end_speed,Vector2.ZERO)
 	if health <= 0: 
-		
 		get_tree().quit()
-		
 	weapons()
-func _input(event):
-	if event is InputEvent:
-		pass
+	if can_regen_stamina:
+		stamina += 4*delta
 func weapons():
 
 	Weapon_ray.cast_to.x = current_weapon.attack_range
@@ -95,15 +119,16 @@ func weapon_anim():
 			Body_anim.play("punch")
 		_:
 			Body_anim.play("punch")
+
 func add_weapon(name, weapon):
 	if inventory_dict.has(name):
 		var inv_wp = inventory_dict[name] as Weapon
 		if inv_wp.ammo == inv_wp.max_ammo:
-			inv_wp.clip = clamp(inv_wp.clip + 1,0,inv_wp.max_clip)
+			inv_wp.clip = clamp(inv_wp.clip + 1 ,0,inv_wp.max_clip)
 			return
 		inv_wp.ammo = inv_wp.max_ammo
 	inventory_dict[name] = weapon
-	
+
 func _on_Reload_timeout():
 	if current_weapon.clip < 1:
 		return
@@ -116,3 +141,6 @@ func _on_Body_anim_animation_finished(anim_name):
 
 func _on_Body_anim_animation_started(anim_name):
 	cant_shoot = true
+
+func _on_Rest_Timer_timeout():
+	can_regen_stamina = true

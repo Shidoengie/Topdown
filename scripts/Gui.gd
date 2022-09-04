@@ -6,7 +6,7 @@ onready var current_weapon = player.current_weapon as Weapon
 func _process(delta):
 	$HpBar.value = player.health
 	$Money_label.text = str(player.money)
-	player.health = player.health - 1
+	$Staminabar.value = player.stamina
 	if current_weapon.uses_ammo:
 
 		$Weapon_panel/Ammo.text = str(current_weapon.ammo) + "\n" + str(current_weapon.clip)

@@ -1,0 +1,8 @@
+{
+    "max_health":100,
+    "hp_RegenTime":30,
+    "walk_speed":100,
+    "run_speed":200,
+    "max_stamina":100,
+    "stamina_RegenTime":15
+}
