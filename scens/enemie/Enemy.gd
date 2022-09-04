@@ -20,10 +20,17 @@ var seeing_player = false
 var been_hit = false
 var path_update = true
 
+onready var Leg_anim = get_node("Leg_anim")
+onready var Body_anim = get_node("Body_anim")
+onready var Reload_timer = get_node("Reload_timer")
+onready var Weapon_ray = get_node("RayCast2D")
+onready var Rest_Timer = get_node("Rest_Timer")
+
 var current_weapon : Weapon
 
 func _ready():
 	current_weapon = GlobalInven.weapon_dict["PISTOL"].duplicate()
+	Body_anim.playback_speed = current_weapon.firerate
 	
 
 func _process(delta):
@@ -92,6 +99,16 @@ func _on_Area2D_body_exited(body):
 
 func _on_Timer_timeout():
 	current_state = SEARCH
+	
+func shoot():
+	#Body_anim.play("punch")
+	#var projectile_scene = preload("res://scens/projectile.tscn").instance()
+	#get_parent().add_child(projectile_scene)
+	
+	# play punch animation
+	# spawn a bullet that moves toward the player's last location
+	# have the bullet have collision and if it touches the player, subtract health from player and queue_free()
+	pass
 	
 func die():
 	var weapon_scene = preload("res://scens/weapon.tscn").instance()

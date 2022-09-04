@@ -4,5 +4,5 @@
     "walk_speed":100,
     "run_speed":200,
     "max_stamina":100,
-    "stamina_RegenTime":15
+    "stamina_RegenTime":1
 }

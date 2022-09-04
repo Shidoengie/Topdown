@@ -5,13 +5,11 @@ var is_reloading = false
 var cant_shoot = false
 var inventory_dict = {}
 
-
 var current_weapon : Weapon
 var money = 0
 
 var max_stamina
 var hp_RegenTime
-var stamina_RegenTime
 var stamina
 var walk_speed
 var run_speed
@@ -19,6 +17,7 @@ var max_health
 var health
 
 var can_regen_stamina = false
+var can_regen_health = false
 
 onready var Leg_anim = get_node("Leg_anim")
 onready var Body_anim = get_node("Body_anim")
@@ -34,14 +33,13 @@ func _ready():
 	max_stamina = data.result["max_stamina"]
 	max_health = data.result["max_health"]
 	hp_RegenTime = data.result["hp_RegenTime"]
-	stamina_RegenTime = data.result["hp_RegenTime"]
+	Rest_Timer.wait_time = data.result["stamina_RegenTime"]
 	walk_speed = data.result["walk_speed"]
 	run_speed = data.result["run_speed"]
 	health = max_health
 	stamina = max_stamina
 	current_weapon = GlobalInven.weapon_dict["AUTO_PISTOL"].duplicate()
 	inventory_dict[current_weapon.model_name] = current_weapon
-	Rest_Timer.wait_time = stamina_RegenTime
 	
 func _physics_process(delta):
 	var inp_vec = Input.get_vector("left","right","up","down")
@@ -54,9 +52,9 @@ func _physics_process(delta):
 		end_speed = run_speed
 		Leg_anim.play("run")
 		if stamina <= 0:
-			health -= 1.5 *delta
+			health -= 5 *delta
 		else:
-			stamina -=  2*delta
+			stamina -=  15*delta
 	else:
 		Rest_Timer.start()
 		end_speed = walk_speed
@@ -69,10 +67,17 @@ func _physics_process(delta):
 		get_tree().quit()
 	weapons()
 	if can_regen_stamina:
-		stamina += 4*delta
-	if stamina > max_stamina:
-		can_regen_stamina = false
-		stamina = max_stamina
+		stamina += 10*delta
+		if stamina > max_stamina:
+			can_regen_stamina = false
+			stamina = max_stamina
+		
+	if can_regen_health:
+		health += 5*delta
+		if health > max_health:
+			can_regen_health = true
+			health = max_health
+			
 func weapons():
 
 	Weapon_ray.cast_to.x = current_weapon.attack_range
