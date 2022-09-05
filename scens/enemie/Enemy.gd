@@ -12,7 +12,7 @@ var velocity = Vector2.ZERO
 var path = []
 
 export var _walkspeed = 100
-export var _health = 200
+export var health = 200
 
 enum {SEARCH = 0,HUNT =1,HIT = 2}
 var current_state = SEARCH
@@ -20,8 +20,8 @@ var seeing_player = false
 var been_hit = false
 var path_update = true
 
-onready var Leg_anim = get_node("Leg_anim")
-onready var Body_anim = get_node("Body_anim")
+onready var Leg_anim = get_node("LegAnim")
+onready var Body_anim = get_node("BodyAnim")
 onready var Reload_timer = get_node("Reload_timer")
 onready var Weapon_ray = get_node("RayCast2D")
 onready var Rest_Timer = get_node("Rest_Timer")
@@ -34,7 +34,7 @@ func _ready():
 	
 
 func _process(delta):
-	if _health < 1:
+	if health < 1:
 		die()
 	# State Machine
 	match current_state:
@@ -48,8 +48,8 @@ func _process(delta):
 		2:
 			been_hit = true
 			current_state = HUNT
-
-
+			
+			
 func hunt_func(delta):
 	var ray_arr = [ray1.get_collider(),ray2.get_collider(),ray3.get_collider()]
 	
@@ -102,12 +102,10 @@ func _on_Timer_timeout():
 	
 func shoot():
 	#Body_anim.play("punch")
-	#var projectile_scene = preload("res://scens/projectile.tscn").instance()
-	#get_parent().add_child(projectile_scene)
+	var projectile_scene = preload("res://scens/bullet.tscn").instance()
+	projectile_scene.transform = transform
+	get_parent().add_child(projectile_scene)
 	
-	# play punch animation
-	# spawn a bullet that moves toward the player's last location
-	# have the bullet have collision and if it touches the player, subtract health from player and queue_free()
 	pass
 	
 func die():

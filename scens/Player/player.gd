@@ -107,7 +107,7 @@ func weapons():
 		if current_weapon.projectile:
 			return
 		if not_null_or_tilemap: 
-			collider._health -= current_weapon.dammage
+			collider.health -= current_weapon.dammage
 			collider.current_state = 2
 	else:
 		if !Input.is_action_pressed("Shoot"):
@@ -116,7 +116,7 @@ func weapons():
 		if current_weapon.uses_ammo:
 			current_weapon.ammo -= 1
 		if not_null_or_tilemap: 
-			collider._health -= current_weapon.dammage
+			collider.health -= current_weapon.dammage
 			collider.current_state = 2
 
 func weapon_anim():
