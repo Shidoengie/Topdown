@@ -124,9 +124,10 @@ func weapon_anim():
 		"FISTS":
 			Body_anim.play("punch")
 		"PISTOL":
-			Body_anim.play("punch")
+			Body_anim.play("Shoot")
+			Body_anim.queue("PistolBase")
 		_:
-			Body_anim.play("punch")
+			Body_anim.play("Shoot")
 
 func add_weapon(name, weapon):
 	if inventory_dict.has(name):
@@ -146,7 +147,7 @@ func _on_Reload_timeout():
 
 func _on_Body_anim_animation_finished(anim_name):
 	cant_shoot = false
-
+	
 func _on_Body_anim_animation_started(anim_name):
 	cant_shoot = true
 
