@@ -6,6 +6,7 @@ var dir
 export var damage = 0
 func _ready():
 	dir = transform.x
+	
 func _physics_process(delta):
 	position += dir * speed * delta
 	

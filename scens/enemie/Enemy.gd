@@ -8,7 +8,6 @@ onready var timer = get_node("Timer")
 onready var player = get_parent().get_parent().find_node("Player") as KinematicBody2D
 onready var nav = get_parent().get_parent().find_node("Navigation2D") as Navigation2D
 
-var velocity = Vector2.ZERO
 var path = []
 
 export var _walkspeed = 100
@@ -22,9 +21,7 @@ var path_update = true
 
 onready var Leg_anim = get_node("LegAnim")
 onready var Body_anim = get_node("BodyAnim")
-onready var Reload_timer = get_node("Reload_timer")
 onready var Weapon_ray = get_node("RayCast2D")
-onready var Rest_Timer = get_node("Rest_Timer")
 
 var current_weapon : Weapon
 
@@ -105,8 +102,6 @@ func shoot():
 	var projectile_scene = preload("res://scens/bullet.tscn").instance()
 	projectile_scene.transform = transform
 	get_parent().add_child(projectile_scene)
-	
-	pass
 	
 func die():
 	var weapon_scene = preload("res://scens/weapon.tscn").instance()

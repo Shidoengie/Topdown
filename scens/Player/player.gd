@@ -13,17 +13,19 @@ var hp_RegenTime
 var stamina
 var walk_speed
 var run_speed
+var max_runspeed
 var max_health
 var health
 
 var can_regen_stamina = false
 var can_regen_health = false
 
-onready var Leg_anim = get_node("Leg_anim")
 onready var Body_anim = get_node("Body_anim")
 onready var Reload_timer = get_node("Reload_timer")
 onready var Weapon_ray = get_node("RayCast2D")
 onready var Rest_Timer = get_node("Rest_Timer")
+onready var Leg_State_anim = get_node("Leg_State")
+var Leg_state
 
 func _ready():
 	var json_file = File.new()
@@ -38,27 +40,35 @@ func _ready():
 	run_speed = data.result["run_speed"]
 	health = max_health
 	stamina = max_stamina
+	max_runspeed = run_speed
 	current_weapon = GlobalInven.weapon_dict["AUTO_PISTOL"].duplicate()
 	inventory_dict[current_weapon.model_name] = current_weapon
-	
+	Leg_state = Leg_State_anim.get("parameters/playback")
 func _physics_process(delta):
+	run_speed = clamp(run_speed,walk_speed,max_runspeed)
 	var inp_vec = Input.get_vector("left","right","up","down")
 	var end_speed = 0
 	if inp_vec == Vector2.ZERO:
-		Leg_anim.play("RESET")
+		Leg_state.travel("RESET")
 	elif Input.is_action_pressed("Run"):
 		can_regen_stamina = false
-		Rest_Timer.start()
-		end_speed = run_speed
-		Leg_anim.play("run")
-		if stamina <= 0:
-			health -= 5 *delta
+		Rest_Timer.stop()
+		
+		if stamina <= 0 and run_speed > walk_speed:
+			health -= 2 *delta
+			run_speed -= 15 * delta
+			
+			Leg_state.travel("run")
+		elif stamina > 0:
+			stamina -=  8*delta
+			Leg_state.travel("run")
 		else:
-			stamina -=  15*delta
+			Leg_state.travel("walk")
+		end_speed = run_speed
 	else:
 		Rest_Timer.start()
 		end_speed = walk_speed
-		Leg_anim.play("walk")
+		Leg_state.travel("walk")
 	velocity = inp_vec
 	look_at(get_global_mouse_position())
 
@@ -68,14 +78,17 @@ func _physics_process(delta):
 	weapons()
 	if can_regen_stamina:
 		stamina += 10*delta
+		run_speed += 10*delta
 		if stamina > max_stamina:
 			can_regen_stamina = false
 			stamina = max_stamina
+		if run_speed > max_runspeed:
+			run_speed = max_runspeed
 		
 	if can_regen_health:
 		health += 5*delta
 		if health > max_health:
-			can_regen_health = true
+			can_regen_health = false
 			health = max_health
 			
 func weapons():
