@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+signal health_changed(old_value, new_value)
+
 var velocity = Vector2.ZERO
 var is_reloading = false
 var cant_shoot = false
@@ -7,6 +9,7 @@ var inventory_dict = {}
 
 var current_weapon : Weapon
 var money = 0
+
 
 var max_stamina
 var hp_RegenTime
@@ -17,6 +20,7 @@ var max_runspeed
 var max_health
 var health
 
+var health_changed = false
 var can_regen_stamina = false
 var can_regen_health = false
 
@@ -25,6 +29,7 @@ onready var Reload_timer = get_node("Reload_timer")
 onready var Weapon_ray = get_node("RayCast2D")
 onready var Rest_Timer = get_node("Rest_Timer")
 onready var Leg_State_anim = get_node("Leg_State")
+onready var Heal_timer = get_node("Heal_timer")
 var Leg_state
 
 func _ready():
@@ -36,6 +41,7 @@ func _ready():
 	max_health = data.result["max_health"]
 	hp_RegenTime = data.result["hp_RegenTime"]
 	Rest_Timer.wait_time = data.result["stamina_RegenTime"]
+	Heal_timer.wait_time = data.result["hp_RegenTime"]
 	walk_speed = data.result["walk_speed"]
 	run_speed = data.result["run_speed"]
 	health = max_health
@@ -44,6 +50,8 @@ func _ready():
 	current_weapon = GlobalInven.weapon_dict["AUTO_PISTOL"].duplicate()
 	inventory_dict[current_weapon.model_name] = current_weapon
 	Leg_state = Leg_State_anim.get("parameters/playback")
+	
+	
 func _physics_process(delta):
 	run_speed = clamp(run_speed,walk_speed,max_runspeed)
 	var inp_vec = Input.get_vector("left","right","up","down")
@@ -55,9 +63,10 @@ func _physics_process(delta):
 		Rest_Timer.stop()
 		
 		if stamina <= 0 and run_speed > walk_speed:
+			var old_health = health
 			health -= 2 *delta
 			run_speed -= 15 * delta
-			
+			emit_signal("health_changed", old_health, health)
 			Leg_state.travel("run")
 		elif stamina > 0:
 			stamina -=  8*delta
@@ -86,11 +95,12 @@ func _physics_process(delta):
 			run_speed = max_runspeed
 		
 	if can_regen_health:
+		var old_health = health
 		health += 5*delta
 		if health > max_health:
 			can_regen_health = false
 			health = max_health
-			
+		emit_signal("health_changed", old_health, health)
 func weapons():
 
 	Weapon_ray.cast_to.x = current_weapon.attack_range
@@ -166,3 +176,15 @@ func _on_Body_anim_animation_started(anim_name):
 
 func _on_Rest_Timer_timeout():
 	can_regen_stamina = true
+
+func take_dmg(amount):
+	var old_health = health
+	health -= amount
+	emit_signal("health_changed", old_health, health)
+	
+func _on_Player_health_changed(old_value, new_value):
+	if old_value > new_value:
+		Heal_timer.start()
+
+func _on_Heal_timer_timeout():
+	can_regen_health = true

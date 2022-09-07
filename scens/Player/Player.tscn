@@ -364,7 +364,11 @@ anim_player = NodePath("../Leg_anim")
 active = true
 parameters/playback = SubResource( 18 )
 
+[node name="Heal_timer" type="Timer" parent="."]
+
+[connection signal="health_changed" from="." to="." method="_on_Player_health_changed"]
 [connection signal="animation_finished" from="Body_anim" to="." method="_on_Body_anim_animation_finished"]
 [connection signal="animation_started" from="Body_anim" to="." method="_on_Body_anim_animation_started"]
 [connection signal="timeout" from="Reload_timer" to="." method="_on_Reload_timeout"]
 [connection signal="timeout" from="Rest_Timer" to="." method="_on_Rest_Timer_timeout"]
+[connection signal="timeout" from="Heal_timer" to="." method="_on_Heal_timer_timeout"]

@@ -11,11 +11,9 @@ func _physics_process(delta):
 	position += dir * speed * delta
 	
 func _on_Bullet_body_entered(body):
-	var dict = {}
-	
-	if not body is TileMap:
-		body.health -= damage
+	if body.name == "Player":
+		body.take_dmg(damage)
+		body.health_changed = true
 		queue_free()
-#		body.current_state = 2
 		return
 	queue_free()
