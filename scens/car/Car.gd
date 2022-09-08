@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 var wheel_base = 70
-var steering_angle = 15
+var steering_angle = 10
 var engine_power = 800
 var friction = -0.9
 var drag = -0.001

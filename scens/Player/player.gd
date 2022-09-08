@@ -13,7 +13,7 @@ var closest_auto_dist = -INF
 var closest_auto
 var auto_arr = []
 var near_auto = false
-
+var in_auto
 
 var current_weapon : Weapon
 var money = 0
@@ -63,14 +63,18 @@ func _process(delta):
 	if near_auto:
 		closest_auto_dist = global_position.distance_to(closest_auto.position)
 	regen(delta)
+func _input(event):
+	if Input.is_action_pressed("Run") and not in_auto:
+		can_regen_stamina = false
+		Rest_Timer.stop()
+	else:
+		Rest_Timer.start()
 func _physics_process(delta):
 	run_speed = clamp(run_speed,walk_speed,max_runspeed)
 	var inp_vec = Input.get_vector("left","right","up","down")
 	if inp_vec == Vector2.ZERO:
 		Leg_state.travel("RESET")
 	elif Input.is_action_pressed("Run"):
-		can_regen_stamina = false
-		Rest_Timer.stop()
 		
 		if stamina <= 0 and run_speed > walk_speed:
 			var old_health = health
@@ -85,7 +89,6 @@ func _physics_process(delta):
 			Leg_state.travel("walk")
 		end_speed = run_speed
 	else:
-		Rest_Timer.start()
 		end_speed = walk_speed
 		Leg_state.travel("walk")
 	velocity = inp_vec
