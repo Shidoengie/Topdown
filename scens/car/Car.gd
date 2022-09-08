@@ -16,7 +16,7 @@ var velocity = Vector2.ZERO
 var steer_direction
 
 func _ready():
-	set_physics_process(true)
+	set_physics_process(false)
 
 func _physics_process(delta):
 	
@@ -39,9 +39,9 @@ func apply_friction():
 func get_input():
 	var turn = 0
 	if Input.is_action_pressed("right"):
-		turn += 0.5
+		turn = 1
 	if Input.is_action_pressed("left"):
-		turn -= 0.5
+		turn = 1
 	steer_direction = turn * deg2rad(steering_angle)
 	if Input.is_action_pressed("up"):
 		acceleration = transform.x * engine_power 
