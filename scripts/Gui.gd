@@ -7,7 +7,6 @@ onready var pistol_text = $Weapon_panel/Pistol_text
 onready var punch_text = $Weapon_panel/Punch_text
 
 func _process(delta):
-	$HpBar.value = player.health
 	$Money_label.text = str(player.money)
 	$Staminabar.value = player.stamina
 	if current_weapon.uses_ammo:
@@ -28,8 +27,8 @@ func _process(delta):
 	if player.health <= 0:
 		$Game_Over.visible = true
 
-func update_health():
-	pass
+func update_health(value):
+	$HpBar.value = value
 
 func _update_map():
 	pass

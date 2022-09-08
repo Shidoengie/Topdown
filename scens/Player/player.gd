@@ -2,15 +2,22 @@ extends KinematicBody2D
 
 signal health_changed(old_value, new_value)
 
+
 var velocity = Vector2.ZERO
 var is_reloading = false
 var cant_shoot = false
 var inventory_dict = {}
 
+
+var closest_auto_dist = -INF
+var closest_auto
+var auto_arr = []
+var near_auto = false
+
+
 var current_weapon : Weapon
 var money = 0
-
-
+var end_speed = 0
 var max_stamina
 var hp_RegenTime
 var stamina
@@ -30,6 +37,7 @@ onready var Weapon_ray = get_node("RayCast2D")
 onready var Rest_Timer = get_node("Rest_Timer")
 onready var Leg_State_anim = get_node("Leg_State")
 onready var Heal_timer = get_node("Heal_timer")
+onready var GUI = get_parent().find_node("GUI")
 var Leg_state
 
 func _ready():
@@ -50,12 +58,14 @@ func _ready():
 	current_weapon = GlobalInven.weapon_dict["AUTO_PISTOL"].duplicate()
 	inventory_dict[current_weapon.model_name] = current_weapon
 	Leg_state = Leg_State_anim.get("parameters/playback")
-	
-	
+	GUI.update_health(health)
+func _process(delta):
+	if near_auto:
+		closest_auto_dist = global_position.distance_to(closest_auto.position)
+	regen(delta)
 func _physics_process(delta):
 	run_speed = clamp(run_speed,walk_speed,max_runspeed)
 	var inp_vec = Input.get_vector("left","right","up","down")
-	var end_speed = 0
 	if inp_vec == Vector2.ZERO:
 		Leg_state.travel("RESET")
 	elif Input.is_action_pressed("Run"):
@@ -85,15 +95,15 @@ func _physics_process(delta):
 	if health <= 0: 
 		get_tree().quit()
 	weapons()
+
+func regen(delta):
 	if can_regen_stamina:
 		stamina += 10*delta
 		run_speed += 10*delta
 		if stamina > max_stamina:
 			can_regen_stamina = false
 			stamina = max_stamina
-		if run_speed > max_runspeed:
-			run_speed = max_runspeed
-		
+			
 	if can_regen_health:
 		var old_health = health
 		health += 5*delta
@@ -101,6 +111,8 @@ func _physics_process(delta):
 			can_regen_health = false
 			health = max_health
 		emit_signal("health_changed", old_health, health)
+
+#Weapons
 func weapons():
 
 	Weapon_ray.cast_to.x = current_weapon.attack_range
@@ -148,7 +160,6 @@ func weapon_anim():
 			Body_anim.play("punch")
 		"PISTOL":
 			Body_anim.play("Shoot")
-			Body_anim.queue("PistolBase")
 		_:
 			Body_anim.play("Shoot")
 
@@ -168,14 +179,19 @@ func _on_Reload_timeout():
 	current_weapon.clip -= 1
 	is_reloading = false
 
+#Animations
 func _on_Body_anim_animation_finished(anim_name):
 	cant_shoot = false
 	
 func _on_Body_anim_animation_started(anim_name):
 	cant_shoot = true
 
+#Stat regen and update
 func _on_Rest_Timer_timeout():
 	can_regen_stamina = true
+
+func _on_Heal_timer_timeout():
+	can_regen_health = true
 
 func take_dmg(amount):
 	var old_health = health
@@ -185,6 +201,19 @@ func take_dmg(amount):
 func _on_Player_health_changed(old_value, new_value):
 	if old_value > new_value:
 		Heal_timer.start()
+	GUI.update_health(new_value)
+#CAR
+func _on_Car_range_body_entered(body):
+	if body.is_in_group("Cars"):
+		near_auto = true
+		auto_arr.append(body)
+		if closest_auto_dist < global_position.distance_to(body.position):
+			closest_auto = body
 
-func _on_Heal_timer_timeout():
-	can_regen_health = true
+func _on_Car_range_body_exited(body):
+	if body.is_in_group("Cars"):
+		auto_arr.erase(body)
+		if auto_arr.empty():
+			near_auto = false
+
+	
