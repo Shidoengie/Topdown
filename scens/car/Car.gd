@@ -1,10 +1,10 @@
 extends KinematicBody2D
 
-var wheel_base = 70
-var steering_angle = 10
+var wheel_base = 120
+export var steering_angle = 10
 var engine_power = 800
 var friction = -0.9
-var drag = -0.001
+export var drag = -0.001
 var braking = -450
 var max_speed_reverse = 250
 var slip_speed = 400
@@ -16,7 +16,7 @@ var velocity = Vector2.ZERO
 var steer_direction
 
 func _ready():
-	set_physics_process(false)
+	set_physics_process(true)
 
 func _physics_process(delta):
 	
@@ -39,12 +39,12 @@ func apply_friction():
 func get_input():
 	var turn = 0
 	if Input.is_action_pressed("right"):
-		turn += 1
+		turn += 0.5
 	if Input.is_action_pressed("left"):
-		turn -= 1
+		turn -= 0.5
 	steer_direction = turn * deg2rad(steering_angle)
 	if Input.is_action_pressed("up"):
-		acceleration = transform.x * engine_power
+		acceleration = transform.x * engine_power 
 	if Input.is_action_pressed("down"):
 		acceleration = transform.x * braking
 		

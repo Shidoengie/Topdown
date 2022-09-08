@@ -65,6 +65,7 @@ func _process(delta):
 	regen(delta)
 	if in_auto:
 		global_position = driven_auto.global_position
+
 func _input(event):
 	if Input.is_action_pressed("Run") and not in_auto:
 		can_regen_stamina = false
