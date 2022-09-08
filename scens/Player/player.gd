@@ -8,7 +8,7 @@ var is_reloading = false
 var cant_shoot = false
 var inventory_dict = {}
 
-
+var driven_auto
 var closest_auto_dist = -INF
 var closest_auto
 var auto_arr = []
@@ -63,12 +63,31 @@ func _process(delta):
 	if near_auto:
 		closest_auto_dist = global_position.distance_to(closest_auto.position)
 	regen(delta)
+	if in_auto:
+		global_position = driven_auto.global_position
 func _input(event):
 	if Input.is_action_pressed("Run") and not in_auto:
 		can_regen_stamina = false
 		Rest_Timer.stop()
 	else:
 		Rest_Timer.start()
+	if Input.is_action_just_pressed("CarEnter") and near_auto and not in_auto:
+		hide()
+		set_physics_process(false)
+		closest_auto.set_physics_process(true)
+		$Car_range/CollisionShape2D.disabled = true
+		$CollisionShape2D.disabled = true
+		in_auto = true
+		driven_auto = closest_auto
+	elif Input.is_action_just_pressed("CarEnter") and in_auto:
+		show()
+		set_physics_process(true)
+		closest_auto.set_physics_process(false)
+		$Car_range/CollisionShape2D.disabled = false
+		$CollisionShape2D.disabled = false
+		in_auto = false
+		driven_auto = closest_auto
+		position.x += 48
 func _physics_process(delta):
 	run_speed = clamp(run_speed,walk_speed,max_runspeed)
 	var inp_vec = Input.get_vector("left","right","up","down")

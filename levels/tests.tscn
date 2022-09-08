@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scens/Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/Sprite-0003.png" type="Texture" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://scens/mone.tscn" type="PackedScene" id=5]
 [ext_resource path="res://misc/spawner.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scens/car/Car.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scripts/tests.gd" type="Script" id=8]
 
 [sub_resource type="NavigationPolygon" id=4]
 vertices = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
@@ -108,7 +107,6 @@ outlines = [ PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 ) ]
 4/z_index = 0
 
 [node name="Node2D" type="Node2D"]
-script = ExtResource( 8 )
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
 
