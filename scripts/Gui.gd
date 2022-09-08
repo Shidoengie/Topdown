@@ -2,23 +2,36 @@ extends CanvasLayer
 #
 onready var player = get_parent().find_node("Player")
 onready var current_weapon = player.current_weapon as Weapon
+onready var ammo_text = $Weapon_panel/Ammo
+onready var pistol_text = $Weapon_panel/Pistol_text
+onready var punch_text = $Weapon_panel/Punch_text
 
 func _process(delta):
-	$HpBar.value = GameManager.player_health
+	$Money_label.text = str(player.money)
+	$Staminabar.value = player.stamina
 	if current_weapon.uses_ammo:
-
-		$Weapon_panel/Ammo.text = str(current_weapon.ammo) + "\n" + str(current_weapon.clip)
+		ammo_text.text = str(current_weapon.ammo) + "\n" + str(current_weapon.clip)
 	else:
-
-		$Weapon_panel/Ammo.hide()
+		ammo_text.hide()
 	match current_weapon.model_name:
+		"AUTO_PISTOL":
+			pistol_text.show()
+			punch_text.hide()
 		"PISTOL":
-			$Weapon_panel/Pistol_text.show()
-			$Weapon_panel/Punch_text.hide()
+			pistol_text.show()
+			punch_text.hide()
 		"FISTS":
-			$Weapon_panel/Pistol_text.hide()
-			$Weapon_panel/Punch_text.show()
+			pistol_text.hide()
+			punch_text.show()
+	
+	if player.health <= 0:
+		$Game_Over.visible = true
 
+func update_health(value):
+	$HpBar.value = value
+
+func _update_map():
+	pass
 
 func _input(event):
 	if event is InputEvent:

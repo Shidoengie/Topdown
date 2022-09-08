@@ -8,11 +8,10 @@ onready var timer = get_node("Timer")
 onready var player = get_parent().get_parent().find_node("Player") as KinematicBody2D
 onready var nav = get_parent().get_parent().find_node("Navigation2D") as Navigation2D
 
-var velocity = Vector2.ZERO
 var path = []
 
 export var _walkspeed = 100
-export var _health = 200
+export var health = 200
 
 enum {SEARCH = 0,HUNT =1,HIT = 2}
 var current_state = SEARCH
@@ -20,14 +19,19 @@ var seeing_player = false
 var been_hit = false
 var path_update = true
 
+onready var Leg_anim = get_node("LegAnim")
+onready var Body_anim = get_node("BodyAnim")
+onready var Weapon_ray = get_node("RayCast2D")
+
 var current_weapon : Weapon
 
 func _ready():
 	current_weapon = GlobalInven.weapon_dict["PISTOL"].duplicate()
+	Body_anim.playback_speed = current_weapon.firerate
 	
 
 func _process(delta):
-	if _health < 1:
+	if health < 1:
 		die()
 	# State Machine
 	match current_state:
@@ -41,8 +45,8 @@ func _process(delta):
 		2:
 			been_hit = true
 			current_state = HUNT
-
-
+			
+			
 func hunt_func(delta):
 	var ray_arr = [ray1.get_collider(),ray2.get_collider(),ray3.get_collider()]
 	
@@ -93,13 +97,22 @@ func _on_Area2D_body_exited(body):
 func _on_Timer_timeout():
 	current_state = SEARCH
 	
+func shoot():
+	#Body_anim.play("punch")
+	var projectile_scene = preload("res://scens/bullet.tscn").instance()
+	projectile_scene.transform = transform
+	get_parent().add_child(projectile_scene)
+	
 func die():
 	var weapon_scene = preload("res://scens/weapon.tscn").instance()
+	var mone_scene = preload("res://scens/mone.tscn").instance()
 	weapon_scene.get_node("Sprite").texture = current_weapon.sprite_texture
 	var new_wp_collider = RectangleShape2D.new()
 	new_wp_collider.extents = current_weapon.sprite_texture.get_size()/1.5
 	weapon_scene.get_node("CollisionShape2D").shape = new_wp_collider
 	weapon_scene.position = position
 	weapon_scene.weapon_name = current_weapon.model_name
+	mone_scene.position = position
 	get_parent().add_child(weapon_scene)
+	get_parent().add_child(mone_scene)
 	queue_free()

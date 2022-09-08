@@ -1,11 +1,52 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://assets/P_punch.png" type="Texture" id=1]
 [ext_resource path="res://scens/Player/player.gd" type="Script" id=2]
 [ext_resource path="res://assets/walk.png" type="Texture" id=3]
 [ext_resource path="res://assets/run.png" type="Texture" id=4]
+[ext_resource path="res://assets/player/player placeholder-shoot.png" type="Texture" id=5]
+[ext_resource path="res://assets/player/pistolbase.png" type="Texture" id=6]
 
 [sub_resource type="CapsuleShape2D" id=1]
+
+[sub_resource type="Animation" id=8]
+resource_name = "PistolBase"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 6 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body:hframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 1 ]
+}
 
 [sub_resource type="Animation" id=5]
 length = 0.001
@@ -44,6 +85,59 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ 1.5 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Body:hframes")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 4 ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "Shoot"
+length = 0.35
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body:hframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 3 ]
 }
 
 [sub_resource type="Animation" id=7]
@@ -85,6 +179,18 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ 1.5 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Body:hframes")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 4 ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -172,6 +278,42 @@ tracks/1/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 }
 
+[sub_resource type="AnimationNodeAnimation" id=10]
+animation = "RESET"
+
+[sub_resource type="AnimationNodeAnimation" id=11]
+animation = "run"
+
+[sub_resource type="AnimationNodeAnimation" id=12]
+animation = "walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=13]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=14]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=15]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id=17]
+states/RESET/node = SubResource( 10 )
+states/RESET/position = Vector2( 468.333, 235.982 )
+states/run/node = SubResource( 11 )
+states/run/position = Vector2( 301.732, 129.939 )
+states/walk/node = SubResource( 12 )
+states/walk/position = Vector2( 301.508, 235.865 )
+transitions = [ "RESET", "walk", SubResource( 13 ), "walk", "run", SubResource( 14 ), "run", "walk", SubResource( 15 ), "walk", "RESET", SubResource( 16 ) ]
+start_node = "RESET"
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=18]
+
+[sub_resource type="CircleShape2D" id=19]
+radius = 89.4427
+
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 360, 480 )
 script = ExtResource( 2 )
@@ -203,7 +345,9 @@ collision_mask = 7
 
 [node name="Body_anim" type="AnimationPlayer" parent="."]
 playback_speed = 1.5
+anims/PistolBase = SubResource( 8 )
 anims/RESET = SubResource( 5 )
+anims/Shoot = SubResource( 9 )
 anims/punch = SubResource( 7 )
 
 [node name="Leg_anim" type="AnimationPlayer" parent="."]
@@ -214,6 +358,27 @@ anims/walk = SubResource( 4 )
 [node name="Reload_timer" type="Timer" parent="."]
 one_shot = true
 
+[node name="Rest_Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Leg_State" type="AnimationTree" parent="."]
+tree_root = SubResource( 17 )
+anim_player = NodePath("../Leg_anim")
+active = true
+parameters/playback = SubResource( 18 )
+
+[node name="Heal_timer" type="Timer" parent="."]
+
+[node name="Car_range" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Car_range"]
+shape = SubResource( 19 )
+
+[connection signal="health_changed" from="." to="." method="_on_Player_health_changed"]
 [connection signal="animation_finished" from="Body_anim" to="." method="_on_Body_anim_animation_finished"]
 [connection signal="animation_started" from="Body_anim" to="." method="_on_Body_anim_animation_started"]
 [connection signal="timeout" from="Reload_timer" to="." method="_on_Reload_timeout"]
+[connection signal="timeout" from="Rest_Timer" to="." method="_on_Rest_Timer_timeout"]
+[connection signal="timeout" from="Heal_timer" to="." method="_on_Heal_timer_timeout"]
+[connection signal="body_entered" from="Car_range" to="." method="_on_Car_range_body_entered"]
+[connection signal="body_exited" from="Car_range" to="." method="_on_Car_range_body_exited"]

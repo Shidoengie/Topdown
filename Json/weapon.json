@@ -12,6 +12,19 @@
     "can_shoot": true,
     "projectile": false
   },
+  "AUTO_PISTOL":
+  {
+
+    "single_fire": false,
+    "range": 500,
+    "ammo": 15,
+    "clipsize": 80,
+    "firerate": 1,
+    "dmg": 15,
+    "reload_time": 4,
+    "can_shoot": true,
+    "projectile": false
+  },
   "BOW":
   {
 
