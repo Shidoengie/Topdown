@@ -6,7 +6,7 @@
 [node name="Car" type="KinematicBody2D"]
 position = Vector2( 480, 336 )
 script = ExtResource( 2 )
-steering_angle = 15
+steering_angle = 12
 
 [node name="Car1" type="Sprite" parent="."]
 rotation = 1.57079

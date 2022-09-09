@@ -10,24 +10,22 @@ var max_speed_reverse = 250
 var slip_speed = 400
 var traction_fast = 0.1
 var traction_slow = 0.7
-
 var acceleration = Vector2.ZERO
 var velocity = Vector2.ZERO
 var steer_direction
 
 func _ready():
-	set_physics_process(false)
+	if get_tree().current_scene.name != "Car":
+		set_physics_process(false)
 
 func _physics_process(delta):
-	
 	acceleration = Vector2.ZERO
 	get_input()
 	apply_friction()
 	calculate_steering(delta)
 	velocity += acceleration * delta
 	velocity = move_and_slide(velocity)
-	
-	
+
 func apply_friction():
 	if velocity.length() < 5:
 		velocity = Vector2.ZERO
@@ -37,14 +35,17 @@ func apply_friction():
 	
 	
 func get_input():
+	
 	var turn = 0
 	if Input.is_action_pressed("right"):
-		turn = 1
+		turn += 1
 	if Input.is_action_pressed("left"):
-		turn = 1
+		turn -= 1
+	var prev_turn = turn
+	
 	steer_direction = turn * deg2rad(steering_angle)
 	if Input.is_action_pressed("up"):
-		acceleration = transform.x * engine_power 
+		acceleration = transform.x * engine_power
 	if Input.is_action_pressed("down"):
 		acceleration = transform.x * braking
 		
@@ -63,5 +64,3 @@ func calculate_steering(delta):
 	if d < 0:
 		velocity = -new_heading * min(velocity.length(), max_speed_reverse)
 	rotation = new_heading.angle()
-	
-	

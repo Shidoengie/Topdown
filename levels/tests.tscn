@@ -146,4 +146,3 @@ rotation = 1.57079
 
 [node name="Car2" parent="." groups=["Cars"] instance=ExtResource( 7 )]
 position = Vector2( 0, 933 )
-steering_angle = 12
