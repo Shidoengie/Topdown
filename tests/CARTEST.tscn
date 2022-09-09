@@ -12,4 +12,4 @@ script = ExtResource( 3 )
 [node name="VectorDisplay2D" type="Node2D" parent="."]
 script = ExtResource( 2 )
 target = NodePath("../Car")
-target_property = "acceleration"
+target_property = "velocity"

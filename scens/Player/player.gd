@@ -175,7 +175,8 @@ func weapons():
 			current_weapon.ammo -= 1
 		if not_null_or_tilemap: 
 			collider.health -= current_weapon.dammage
-			collider.current_state = 2
+			if "Enemy" in collider.name:	
+				collider.current_state = 2
 
 func weapon_anim():
 	match current_weapon.model_name:

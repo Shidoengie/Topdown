@@ -1,5 +1,6 @@
 extends KinematicBody2D
 
+var health : float
 var wheel_base = 120
 export var steering_angle = 10
 var engine_power = 800
@@ -13,13 +14,14 @@ var traction_slow = 0.7
 var acceleration = Vector2.ZERO
 var velocity = Vector2.ZERO
 var steer_direction
+var vroom = 1
 
 func _ready():
 	GlobalInven.load_vehicle("Car",$".")
 	if get_tree().current_scene.name != "Car" and get_tree().current_scene.name != "CARTEST":
 		set_physics_process(false)
-func _physics_process(delta):
 	
+func _physics_process(delta):
 	acceleration = Vector2.ZERO
 	get_input()
 	apply_friction()
@@ -34,21 +36,24 @@ func apply_friction():
 	var drag_force = velocity * velocity.length() * drag
 	acceleration += drag_force + friction_force
 	
-	
 func get_input():
 	
 	var turn = 0
 	if Input.is_action_pressed("right"):
-		turn += 1
+		turn += 3
 	if Input.is_action_pressed("left"):
-		turn -= 1
+		turn -= 3
 	var prev_turn = turn
 	
 	steer_direction = turn * deg2rad(steering_angle)
+	if Input.is_action_pressed("Run"):
+		vroom = 1.5
+	elif Input.is_action_just_released("Run"):
+		vroom = 1
 	if Input.is_action_pressed("up"):
-		acceleration = transform.x * engine_power
+		acceleration = transform.x * engine_power * vroom
 	if Input.is_action_pressed("down"):
-		acceleration = transform.x * braking
+		acceleration = transform.x * braking * vroom
 		
 func calculate_steering(delta):
 	var rear_wheel = position - transform.x * wheel_base/2.0

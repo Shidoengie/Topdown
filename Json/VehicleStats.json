@@ -1,6 +1,7 @@
 {
     "Car":
     {
+		"health" : 1000,
         "wheel_base" : 120,
         "steering_angle" : 10,
         "engine_power" : 800,

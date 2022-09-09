@@ -48,6 +48,7 @@ func load_vehicle(vname,node) -> void:
 	var json_str = json_file.get_as_text()
 	var data = JSON.parse(json_str)
 	var inner_dict = data.result[vname]
+	node.health = inner_dict["health"]
 	node.wheel_base = inner_dict["wheel_base"]
 	node.engine_power = inner_dict["engine_power"]
 	node.wheel_base = inner_dict["wheel_base"]
