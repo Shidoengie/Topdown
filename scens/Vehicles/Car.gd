@@ -15,10 +15,11 @@ var velocity = Vector2.ZERO
 var steer_direction
 
 func _ready():
-	if get_tree().current_scene.name != "Car":
+	GlobalInven.load_vehicle("Car",$".")
+	if get_tree().current_scene.name != "Car" and get_tree().current_scene.name != "CARTEST":
 		set_physics_process(false)
-
 func _physics_process(delta):
+	
 	acceleration = Vector2.ZERO
 	get_input()
 	apply_friction()

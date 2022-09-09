@@ -1,0 +1,15 @@
+{
+    "Car":
+    {
+        "wheel_base" : 120,
+        "steering_angle" : 10,
+        "engine_power" : 800,
+        "friction" : -0.9,
+        "drag" : -0.001,
+        "braking" : -450,
+        "max_speed_reverse" : 250,
+        "slip_speed" : 400,
+        "traction_fast" : 0.1,
+        "traction_slow" : 0.7
+    }
+}
