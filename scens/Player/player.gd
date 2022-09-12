@@ -1,7 +1,9 @@
 extends KinematicBody2D
 
 signal health_changed(old_value, new_value)
-
+signal enter_auto
+signal exit_auto
+signal near_auto
 
 var velocity = Vector2.ZERO
 var is_reloading = false
@@ -41,6 +43,7 @@ onready var GUI = get_parent().find_node("GUI")
 var Leg_state
 
 func _ready():
+	#Loads player stats
 	var json_file = File.new()
 	json_file.open("res://Json/PlayerStats.json",File.READ_WRITE)
 	var json_str = json_file.get_as_text()
@@ -55,10 +58,11 @@ func _ready():
 	health = max_health
 	stamina = max_stamina
 	max_runspeed = run_speed
-	current_weapon = GlobalInven.weapon_dict["AUTO_PISTOL"].duplicate()
+	current_weapon = GlobalInven.weapon_dict["PISTOL"].duplicate()
 	inventory_dict[current_weapon.model_name] = current_weapon
 	Leg_state = Leg_State_anim.get("parameters/playback")
 	GUI.update_health(health)
+
 func _process(delta):
 	if near_auto:
 		closest_auto_dist = global_position.distance_to(closest_auto.position)
@@ -73,22 +77,11 @@ func _input(event):
 	else:
 		Rest_Timer.start()
 	if Input.is_action_just_pressed("CarEnter") and near_auto and not in_auto:
-		hide()
-		set_physics_process(false)
-		closest_auto.set_physics_process(true)
-		$Car_range/CollisionShape2D.disabled = true
-		$CollisionShape2D.disabled = true
-		in_auto = true
-		driven_auto = closest_auto
+		emit_signal("enter_auto")
 	elif Input.is_action_just_pressed("CarEnter") and in_auto:
-		show()
-		set_physics_process(true)
-		closest_auto.set_physics_process(false)
-		$Car_range/CollisionShape2D.disabled = false
-		$CollisionShape2D.disabled = false
-		in_auto = false
-		driven_auto = closest_auto
-		position.x += 48
+		
+		emit_signal("exit_auto")
+
 func _physics_process(delta):
 	run_speed = clamp(run_speed,walk_speed,max_runspeed)
 	var inp_vec = Input.get_vector("left","right","up","down")
@@ -134,7 +127,6 @@ func regen(delta):
 			can_regen_health = false
 			health = max_health
 		emit_signal("health_changed", old_health, health)
-
 #Weapons
 func weapons():
 
@@ -156,28 +148,19 @@ func weapons():
 	if is_reloading or cant_shoot:
 		return
 	
-	if current_weapon.single_fire:
-		if !Input.is_action_just_pressed("Shoot"):
-			return
-		if current_weapon.uses_ammo:
-			current_weapon.ammo -= 1
-		weapon_anim()
-		if current_weapon.projectile:
-			return
-		if not_null_or_tilemap: 
+	if !Input.is_action_just_pressed("Shoot") and current_weapon.single_fire:
+		return
+	if !Input.is_action_pressed("Shoot") and !current_weapon.single_fire:
+		return
+	if current_weapon.uses_ammo:
+		current_weapon.ammo -= 1
+	weapon_anim()
+	if current_weapon.projectile:
+		return
+	if not_null_or_tilemap: 
 			collider.health -= current_weapon.dammage
-			collider.current_state = 2
-	else:
-		if !Input.is_action_pressed("Shoot"):
-			return
-		weapon_anim()
-		if current_weapon.uses_ammo:
-			current_weapon.ammo -= 1
-		if not_null_or_tilemap: 
-			collider.health -= current_weapon.dammage
-			if "Enemy" in collider.name:	
-				collider.current_state = 2
-
+			if "enemy" in collider.name.to_lower():
+				collider.get_hit()
 func weapon_anim():
 	match current_weapon.model_name:
 		"FISTS":
@@ -203,10 +186,9 @@ func _on_Reload_timeout():
 	current_weapon.clip -= 1
 	is_reloading = false
 
-#Animations
+#Reloading
 func _on_Body_anim_animation_finished(anim_name):
 	cant_shoot = false
-	
 func _on_Body_anim_animation_started(anim_name):
 	cant_shoot = true
 
@@ -230,6 +212,7 @@ func _on_Player_health_changed(old_value, new_value):
 func _on_Car_range_body_entered(body):
 	if body.is_in_group("Cars"):
 		near_auto = true
+		emit_signal("near_auto")
 		auto_arr.append(body)
 		if closest_auto_dist < global_position.distance_to(body.position):
 			closest_auto = body
@@ -240,4 +223,21 @@ func _on_Car_range_body_exited(body):
 		if auto_arr.empty():
 			near_auto = false
 
-	
+
+func _on_Player_enter_auto():
+	hide()
+	set_physics_process(false)
+	closest_auto.set_physics_process(true)
+	$Car_range/CollisionShape2D.disabled = true
+	$CollisionShape2D.disabled = true
+	in_auto = true
+	driven_auto = closest_auto
+
+func _on_Player_exit_auto():
+	show()
+	set_physics_process(true)
+	driven_auto.set_physics_process(false)
+	$Car_range/CollisionShape2D.disabled = false
+	$CollisionShape2D.disabled = false
+	in_auto = false
+	position.x += 48

@@ -374,6 +374,8 @@ parameters/playback = SubResource( 18 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Car_range"]
 shape = SubResource( 19 )
 
+[connection signal="enter_auto" from="." to="." method="_on_Player_enter_auto"]
+[connection signal="exit_auto" from="." to="." method="_on_Player_exit_auto"]
 [connection signal="health_changed" from="." to="." method="_on_Player_health_changed"]
 [connection signal="animation_finished" from="Body_anim" to="." method="_on_Body_anim_animation_finished"]
 [connection signal="animation_started" from="Body_anim" to="." method="_on_Body_anim_animation_started"]

@@ -6,7 +6,7 @@
     "range": 500,
     "ammo": 15,
     "clipsize": 80,
-    "firerate": 0.5,
+    "firerate": 1.2,
     "dmg": 15,
     "reload_time": 4,
     "can_shoot": true,
@@ -44,7 +44,7 @@
     "single_fire": true,
     "range": 50,
     "dmg": 25,
-    "firerate": 0.5,
+    "firerate": 1,
     "can_shoot": false,
     "projectile": false
   },

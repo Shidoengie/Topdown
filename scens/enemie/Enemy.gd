@@ -13,7 +13,8 @@ var path = []
 export var _walkspeed = 100
 export var health = 200
 
-enum {SEARCH = 0,HUNT =1,HIT = 2}
+enum {SEARCH = 0,HUNT =1}
+
 var current_state = SEARCH
 var seeing_player = false
 var been_hit = false
@@ -41,12 +42,6 @@ func _process(delta):
 		# Hunt
 		1:
 			hunt_func(delta)
-		# hit
-		2:
-			been_hit = true
-			current_state = HUNT
-			
-			
 func hunt_func(delta):
 	var ray_arr = [ray1.get_collider(),ray2.get_collider(),ray3.get_collider()]
 	
@@ -116,3 +111,6 @@ func die():
 	get_parent().add_child(weapon_scene)
 	get_parent().add_child(mone_scene)
 	queue_free()
+func get_hit():
+	been_hit = true
+	current_state = HUNT
