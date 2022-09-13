@@ -39,6 +39,7 @@ func _input(event):
 			$Console.visible = not $Console.visible
 		if event.is_action_pressed("Wp_wheel"):
 			$Wp_wheel.show()
+			
 		if event.is_action_released("Wp_wheel"):
 			$Wp_wheel.hide()
 func _on_TextEdit_text_entered(new_text):

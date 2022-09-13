@@ -2,7 +2,8 @@ extends Control
 
 var wheel_index = 0
 var wps_on_wheel = 1
-var page = 0
+var pagecount = 0
+var page
 var selected
 onready var wheel_cells =  [$wheelcel0,$wheelcel1,$wheelcel2,$wheelcel3,$wheelcel4,$wheelcel5,$wheelcel6,$wheelcel7]
 #read player weapons
@@ -18,6 +19,8 @@ func _input(event):
 				wheel_index += 1
 				if wheel_index > wps_on_wheel:
 					wheel_index = 0
+					if pagecount > 0:
+						page_up()
 				selected = wheel_cells[wheel_index]
 				selected.pressed = true
 				check_pressed()
@@ -25,6 +28,8 @@ func _input(event):
 				wheel_index -= 1
 				if wheel_index < 0:
 					wheel_index = wps_on_wheel
+					if pagecount > 0:
+						page_down()
 				selected = wheel_cells[wheel_index]
 				selected.pressed = true
 				check_pressed()
@@ -40,8 +45,11 @@ func check_pressed():
 	smth.remove(wheel_index)
 	for i in smth:
 		i.pressed = false
-
-
+#placeholders
+func page_up():
+	pass
+func page_down():
+	pass
 func _on_wheelcel0_pressed():
 	wheel_index = 0
 	check_pressed()
