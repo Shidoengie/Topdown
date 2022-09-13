@@ -43,6 +43,7 @@ onready var GUI = get_parent().find_node("GUI")
 var Leg_state
 
 func _ready():
+	
 	#Loads player stats
 	var json_file = File.new()
 	json_file.open("res://Json/PlayerStats.json",File.READ_WRITE)
