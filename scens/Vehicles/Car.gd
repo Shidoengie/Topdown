@@ -43,7 +43,6 @@ func get_input():
 		turn += 3
 	if Input.is_action_pressed("left"):
 		turn -= 3
-	var prev_turn = turn
 	
 	steer_direction = turn * deg2rad(steering_angle)
 	if Input.is_action_pressed("Run"):

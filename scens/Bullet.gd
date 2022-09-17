@@ -3,7 +3,7 @@ extends Area2D
 export var speed = 2500
 var velocity = Vector2.ZERO
 var dir
-export var damage = 0
+export var damage = 10
 func _ready():
 	dir = transform.x
 	

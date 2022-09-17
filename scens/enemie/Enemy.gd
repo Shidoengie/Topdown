@@ -8,6 +8,8 @@ onready var timer = get_node("Timer")
 onready var player = get_parent().get_parent().find_node("Player") as KinematicBody2D
 onready var nav = get_parent().get_parent().find_node("Navigation2D") as Navigation2D
 
+var can_shoot = true
+var moving = false
 var path = []
 
 export var _walkspeed = 100
@@ -28,10 +30,12 @@ var current_weapon : Weapon
 
 func _ready():
 	current_weapon = GlobalInven.weapon_dict["PISTOL"].duplicate()
-	Body_anim.playback_speed = current_weapon.firerate
+#	Body_anim.playback_speed = current_weapon.firerate
 	
 
 func _process(delta):
+	if can_shoot and seeing_player and not moving:
+		shoot()
 	if health < 1:
 		die()
 	# State Machine
@@ -57,9 +61,13 @@ func hunt_func(delta):
 		var player_distance = global_position.distance_to(player.position)
 		
 		if player_distance > 200:
+			moving = true
 			path = nav.get_simple_path(global_position,player.global_position)
 			move_along_path(_walkspeed*delta)
-	
+			Leg_anim.play("Move")
+		else:
+			moving = false
+			Leg_anim.play("RESET")
 	elif not seeing_player:
 		if path_update:
 			path = nav.get_simple_path(global_position,player.global_position)
@@ -68,6 +76,7 @@ func hunt_func(delta):
 
 func move_along_path(distance):
 	var last_point = position
+	
 	while path.size() > 1:
 		var distance_between_points = last_point.distance_to(path[1])
 		if distance <= distance_between_points:
@@ -93,7 +102,8 @@ func _on_Timer_timeout():
 	current_state = SEARCH
 	
 func shoot():
-	#Body_anim.play("punch")
+	
+	Body_anim.play("Shoot")
 	var projectile_scene = preload("res://scens/bullet.tscn").instance()
 	projectile_scene.transform = transform
 	get_parent().add_child(projectile_scene)
@@ -114,3 +124,12 @@ func die():
 func get_hit():
 	been_hit = true
 	current_state = HUNT
+
+
+func _on_BodyAnim_animation_started(anim_name):
+	can_shoot = false
+
+
+func _on_BodyAnim_animation_finished(anim_name):
+	can_shoot = true
+	

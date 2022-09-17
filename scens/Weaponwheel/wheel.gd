@@ -68,13 +68,14 @@ func page_up():
 	update_page_label()
 	
 func page_down():
-	page_total = abs(page_total)
 	if page_total > total_weapons:
 		wps_on_wheel = page_total-total_weapons
 		page_total -= (page_total-total_weapons)
 	else:
 		page_total -= wheel_cells.size()
 		wps_on_wheel = wheel_cells.size()-1
+	if page_total < 0:
+		page_total
 	update_slots()
 	cur_page -= 1
 	if cur_page < 1:
